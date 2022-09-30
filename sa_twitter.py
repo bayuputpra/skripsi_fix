@@ -22,8 +22,8 @@ if __name__=='__main__':
         main()
 
 try:
-    searchvalue = st.text_input("Masukan Topik Yang Dicari")
-    searchcount = st.text_input("Masukan Jumlah Kalimat Yang Dicari")
+    searchvalue = st.text_input("Masukan Topik Pembahasan Yang Dicari")
+    searchcount = st.text_input("Masukan Jumlah Baris Yang Dicari")
     hasilSearch  = api.search_tweets(q=searchvalue, count = int(searchcount), lang='id')
 
     hasilAnalisis = pd.DataFrame(columns=["tgl","user","text","sentimen"])
@@ -87,6 +87,7 @@ try:
         plt.imshow(wordcloud)
         plt.axis("off")
         plt.show()
+        st.set_option('deprecation.showPyplotGlobalUse', False)
     st.pyplot(PlotWordcloud())
 except:
     print("error")
