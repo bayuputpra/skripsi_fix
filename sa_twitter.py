@@ -55,9 +55,9 @@ try:
         hasilAnalisis.loc[len(hasilAnalisis)]=file
 
     hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
-    hasilAnalisis.to_csv("data_tw.csv")
     st.text("Dataset")
     st.write(hasilAnalisis)
+    st.download_button(label="Download CSV", data=hasilAnalisis.to_csv(),mime="text/csv",file_name="data_tw.csv")
 
     tweet_positif = hasilAnalisis[hasilAnalisis["sentimen"]=="positif"]
     tweet_netral = hasilAnalisis[hasilAnalisis["sentimen"]=="netral"]
