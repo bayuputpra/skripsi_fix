@@ -55,7 +55,7 @@ try:
         hasilAnalisis.loc[len(hasilAnalisis)]=file
 
     hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
-    hasilAnalisis.to_csv("data_tw.csv")
+    hasilAnalisis.to_csv("Downloads/Programs/Skripsi/skripsi_fix/data_tw.csv")
     st.text("Dataset")
     st.write(hasilAnalisis)
 
