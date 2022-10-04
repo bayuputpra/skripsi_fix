@@ -42,4 +42,3 @@ def acc():
     print("F1 = ",f1_score(test.score_sentiment.astype(np.int16), y_pred, average='macro'))
     print("Precision = ",precision_score(test.score_sentiment, y_pred, average='macro'))
     print("Recall = ",recall_score(test.score_sentiment, y_pred, average='macro'))
-
