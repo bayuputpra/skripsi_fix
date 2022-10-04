@@ -5,6 +5,7 @@ import pandas as pd
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import streamlit as st
+from akurasi import acc
 
 api_key = "APfBI7D2yFcruynoBr4eYTuk2"
 api_secret_key = "jX35Mj2ADJIS76FXl36fCIjHxvHliimL4fY3z6DKlUZ9Q5FrgC"
@@ -57,7 +58,9 @@ try:
     hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
     st.text("Dataset")
     st.write(hasilAnalisis)
-    st.download_button(label="Download CSV", data=hasilAnalisis.to_csv(),mime="text/csv",file_name="data_tw.csv")
+    button_csv=st.download_button(label="Download CSV", data=hasilAnalisis.to_csv(),mime="text/csv",file_name="data_tw.csv")
+    if button_csv:
+        st.text("Akurasi \n",acc())
 
     tweet_positif = hasilAnalisis[hasilAnalisis["sentimen"]=="positif"]
     tweet_netral = hasilAnalisis[hasilAnalisis["sentimen"]=="netral"]
