@@ -6,7 +6,6 @@ import pandas as pd
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import streamlit as st
-from acc import acc
 
 api_key = "APfBI7D2yFcruynoBr4eYTuk2"
 api_secret_key = "jX35Mj2ADJIS76FXl36fCIjHxvHliimL4fY3z6DKlUZ9Q5FrgC"
