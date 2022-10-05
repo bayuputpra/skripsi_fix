@@ -58,20 +58,15 @@ try:
     hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
     st.text("Dataset")
     st.write(hasilAnalisis)
-    try:
-        button_csv=st.download_button(
-            label="Download CSV", 
-            data=hasilAnalisis.to_csv(),
-            mime="text/csv",
-            file_name="data_tw.csv"
-        )
-        if button_csv:
-            from acc import acc
-            st.text(acc())
-        else:
-            st.text("Akurasi = download csv terlebih dahulu !")
-    except:
-        print("error")
+    button_csv=st.download_button(
+        label="Download CSV", 
+        data=hasilAnalisis.to_csv(),
+        mime="text/csv",
+        file_name="data_tw.csv"
+    )
+    if button_csv:
+        from acc import acc
+        st.text(acc())
 
     tweet_positif = hasilAnalisis[hasilAnalisis["sentimen"]=="positif"]
     tweet_netral = hasilAnalisis[hasilAnalisis["sentimen"]=="netral"]
