@@ -1,3 +1,4 @@
+from cProfile import label
 import tweepy
 import re
 from textblob import TextBlob
@@ -58,9 +59,12 @@ try:
     hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
     st.text("Dataset")
     st.write(hasilAnalisis)
-    button_csv=st.download_button(label="Download CSV", data=hasilAnalisis.to_csv(),mime="text/csv",file_name="data_tw.csv")
-    if button_csv:
-        st.text("Akurasi \n",acc())
+    st.download_button(
+        label="Download CSV", 
+        data=hasilAnalisis.to_csv(),
+        mime="text/csv",
+        file_name="data_tw.csv"
+    )
 
     tweet_positif = hasilAnalisis[hasilAnalisis["sentimen"]=="positif"]
     tweet_netral = hasilAnalisis[hasilAnalisis["sentimen"]=="netral"]
