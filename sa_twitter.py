@@ -1,4 +1,5 @@
 from cProfile import label
+from click import ClickException
 import tweepy
 import re
 from textblob import TextBlob
@@ -64,9 +65,8 @@ try:
         mime="text/csv",
         file_name="data_tw.csv"
     )
-    if button_csv:
-        from acc import acc
-        st.text("Akurasi")
+    from acc import acc
+    st.text(acc)
 
     tweet_positif = hasilAnalisis[hasilAnalisis["sentimen"]=="positif"]
     tweet_netral = hasilAnalisis[hasilAnalisis["sentimen"]=="netral"]
