@@ -66,7 +66,7 @@ try:
     )
     if button_csv:
         from acc import acc
-        st.text(acc())
+        st.text("Akurasi")
 
     tweet_positif = hasilAnalisis[hasilAnalisis["sentimen"]=="positif"]
     tweet_netral = hasilAnalisis[hasilAnalisis["sentimen"]=="netral"]
