@@ -66,7 +66,7 @@ try:
         file_name="data_tw.csv"
     )
     from acc import acc
-    st.text(acc)
+    st.text(acc())
 
     tweet_positif = hasilAnalisis[hasilAnalisis["sentimen"]=="positif"]
     tweet_netral = hasilAnalisis[hasilAnalisis["sentimen"]=="netral"]
