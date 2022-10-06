@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score
+import streamlit as st
 
 warnings.filterwarnings('ignore')
 df = pd.read_csv('../data_tw.csv')
@@ -35,4 +36,4 @@ y_pred = model.predict(X_test)
 y_pred = y_pred.astype(np.int16)
 
 def acc():
-    print("Akurasi = ",accuracy_score(test.score_sentiment,y_pred))
+    st.text("Akurasi = ",accuracy_score(test.score_sentiment,y_pred))
