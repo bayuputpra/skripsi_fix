@@ -66,9 +66,9 @@ try:
                 self.path=path
             def call_python_file(self):
                 call(["python3","{}".format(self.path)])
-        if __name__ == "__main__":
-            c=CallPy()
-            c.call_python_file()
+        
+        c=CallPy()
+        c.call_python_file()
     else:
         st.text("Akurasi = silahkan download file csv terlebih dahulu !")
 
