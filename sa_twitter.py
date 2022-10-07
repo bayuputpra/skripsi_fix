@@ -68,7 +68,7 @@ try:
     if button_csv:
         from subprocess import call
         class CallPy(object):
-            def __init__(self,path='C:/Users/bayup/Downloads/Programs/Skripsi/skripsi_fix/acc.py'):
+            def __init__(self,path = 'Users\bayup\Downloads\Programs\Skripsi\skripsi_fix\acc.py'):
                 self.path=path
             def call_python_file(self):
                 call(["Python3","{}".format(self.path)])
