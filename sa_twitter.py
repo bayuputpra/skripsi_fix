@@ -7,6 +7,7 @@ import pandas as pd
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import streamlit as st
+from subprocess import call
 
 api_key = "APfBI7D2yFcruynoBr4eYTuk2"
 api_secret_key = "jX35Mj2ADJIS76FXl36fCIjHxvHliimL4fY3z6DKlUZ9Q5FrgC"
@@ -60,7 +61,6 @@ try:
     st.text("Dataset")
     st.write(hasilAnalisis)
     if st.download_button(label="Download CSV", data=hasilAnalisis.to_csv(),mime="text/csv",file_name="data_tw.csv"):
-        from subprocess import call
         class CallPy(object):
             def __init__(self,path ='/Users/bayup/Downloads/Programs/Skripsi/skripsi_fix/acc.py'):
                 self.path=path
