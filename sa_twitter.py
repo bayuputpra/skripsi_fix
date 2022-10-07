@@ -59,13 +59,7 @@ try:
     hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
     st.text("Dataset")
     st.write(hasilAnalisis)
-    button_csv=st.download_button(
-        label="Download CSV", 
-        data=hasilAnalisis.to_csv(),
-        mime="text/csv",
-        file_name="data_tw.csv"
-    )
-    if button_csv:
+    if st.download_button(label="Download CSV", data=hasilAnalisis.to_csv(),mime="text/csv",file_name="data_tw.csv"):
         from subprocess import call
         class CallPy(object):
             def __init__(self,path ='/Users/bayup/Downloads/Programs/Skripsi/skripsi_fix/acc.py'):

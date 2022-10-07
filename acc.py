@@ -36,4 +36,4 @@ y_pred = model.predict(X_test)
 y_pred = y_pred.astype(np.int16)
 
 
-st.text("Akurasi = ",accuracy_score(test.score_sentiment,y_pred))
+st.write("Akurasi = ",accuracy_score(test.score_sentiment,y_pred))
