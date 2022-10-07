@@ -65,6 +65,18 @@ try:
         mime="text/csv",
         file_name="data_tw.csv"
     )
+    if button_csv:
+        from subprocess import call
+        class CallPy(object):
+            def __init__(self,path='C:/Users/bayup/Downloads/Programs/Skripsi/skripsi_fix/acc.py'):
+                self.path=path
+            def call_python_file(self):
+                call(["Python3","{}".format(self.path)])
+        if __name__ == "__main__":
+            c=CallPy()
+            c.call_python_file()
+    else:
+        st.text("Akurasi = silahkan download file csv terlebih dahulu !")
 
     tweet_positif = hasilAnalisis[hasilAnalisis["sentimen"]=="positif"]
     tweet_netral = hasilAnalisis[hasilAnalisis["sentimen"]=="netral"]
