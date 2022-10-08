@@ -13,7 +13,7 @@ st.title("Perhitungan Akurasi")
 
 try:
     file_csv=st.file_uploader("Unggah File CSV")
-    df = pd.read_csv(file_csv,columns=["tgl","user","text","sentimen"])
+    df = pd.read_csv(file_csv)
     st.write(df)
 
     def analyze(score):
@@ -39,7 +39,6 @@ try:
     y_pred = model.predict(X_test)
     y_pred = y_pred.astype(np.int16)
 
-    st.text("Hasil Akurasi")
     st.text(classification_report(test.score_sentiment,y_pred,target_names=['positif','netral','negatif'],labels=[0, 1, 2]))
     st.text('Data Testing : ',len(test),'%')
     st.text('Data Training : ',len(train),'%')
