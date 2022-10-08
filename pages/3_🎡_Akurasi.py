@@ -13,7 +13,7 @@ st.title("Perhitungan Akurasi")
 
 try:
     file_csv=st.file_uploader("Unggah File CSV")
-    df = pd.read_csv(file_csv)
+    df = pd.read_csv(file_csv,columns=["tgl","user","text","sentimen"])
     st.write(df)
 
     def analyze(score):
