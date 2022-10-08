@@ -8,7 +8,9 @@ from sklearn.metrics import accuracy_score
 import streamlit as st
 
 warnings.filterwarnings('ignore')
-df = pd.read_csv('../data_tw.csv')
+st.title("Perhitungan Akurasi")
+file_csv=st.file_uploader("Unggah File CSV")
+df = pd.read_csv(file_csv)
 df
 
 def analyze(score):
@@ -36,4 +38,10 @@ y_pred = model.predict(X_test)
 y_pred = y_pred.astype(np.int16)
 
 
-st.write("Akurasi = ",accuracy_score(test.score_sentiment,y_pred))
+st.text(classification_report(test.score_sentiment,y_pred,target_names=['positif 1','netral 0','negatif -1'],labels=[0, 1, 2]))
+st.text('Data Testing : ',len(test),'%')
+st.text('Data Training : ',len(train),'%')
+st.text('Accuracy : ',accuracy_score(test.score_sentiment,y_pred))
+st.text('F1 Score : ',f1_score(test.score_sentiment.astype(np.int16), y_pred, average='macro'))
+st.text('Precision : ',precision_score(test.score_sentiment, y_pred, average='macro'))
+st.text('Recall : ',recall_score(test.score_sentiment, y_pred, average='macro'))
