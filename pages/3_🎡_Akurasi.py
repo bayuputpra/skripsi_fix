@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score,classification_report,f1_score,precis
 import streamlit as st
 
 warnings.filterwarnings('ignore')
-st.markdown("____")
+st.sidebar.success("Pilih Halaman Diatas")
 st.title("Perhitungan Akurasi")
 
 try:
@@ -40,7 +40,7 @@ try:
     y_pred = y_pred.astype(np.int16)
 
     st.text("Hasil Akurasi")
-    st.text(classification_report(test.score_sentiment,y_pred,target_names=['positif 1','netral 0','negatif -1'],labels=[0, 1, 2]))
+    st.text(classification_report(test.score_sentiment,y_pred,target_names=['positif','netral','negatif'],labels=[0, 1, 2]))
     st.text('Data Testing : ',len(test),'%')
     st.text('Data Training : ',len(train),'%')
     st.text('Accuracy : ',accuracy_score(test.score_sentiment,y_pred))

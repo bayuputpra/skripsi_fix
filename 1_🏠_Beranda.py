@@ -5,4 +5,4 @@ st.set_page_config(
 )
 st.title("Judul Skripsi")
 st.image("logo.png",width=300)
-st.markdown("____")
+st.sidebar.success("Pilih Halaman Diatas")
