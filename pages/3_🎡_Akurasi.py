@@ -8,12 +8,13 @@ from sklearn.metrics import accuracy_score,classification_report,f1_score,precis
 import streamlit as st
 
 warnings.filterwarnings('ignore')
+st.markdown("____")
 st.title("Perhitungan Akurasi")
 
 try:
     file_csv=st.file_uploader("Unggah File CSV")
     df = pd.read_csv(file_csv)
-    df
+    st.write(df)
 
     def analyze(score):
         if score == "positif" :
@@ -24,7 +25,6 @@ try:
             return -1
 
     df['score_sentiment'] = df['sentimen'].apply(analyze)
-    df
 
     train, test = train_test_split(df, test_size=0.2, random_state=30)
 
