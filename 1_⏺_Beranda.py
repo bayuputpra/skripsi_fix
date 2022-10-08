@@ -4,4 +4,4 @@ st.set_page_config(
 	page_title="Skripsi",
 )
 st.title("Judul Skripsi")
-st.sidebar.success("-------------------")
+st.sidebar.success()
