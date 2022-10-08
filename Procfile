@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run sa_twitter.py
+web: sh setup.sh && streamlit run Beranda.py

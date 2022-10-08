@@ -7,7 +7,6 @@ import pandas as pd
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import streamlit as st
-from subprocess import call
 
 api_key = "APfBI7D2yFcruynoBr4eYTuk2"
 api_secret_key = "jX35Mj2ADJIS76FXl36fCIjHxvHliimL4fY3z6DKlUZ9Q5FrgC"
@@ -19,7 +18,7 @@ auth.set_access_token(access_token,access_token_secret)
 api = tweepy.API(auth)
 
 def main():
-    st.title("Sentiment Analysis of tweets")
+    st.title("Sentimen Analisis Twitter")
     
 if __name__=='__main__':
         main()
@@ -60,17 +59,7 @@ try:
     hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
     st.text("Dataset")
     st.write(hasilAnalisis)
-    if st.download_button(label="Download CSV", data=hasilAnalisis.to_csv(),mime="text/csv",file_name="data_tw.csv"):
-        class CallPy(object):
-            def __init__(self,path ='/Users/bayup/Downloads/Programs/Skripsi/skripsi_fix/acc.py'):
-                self.path=path
-            def call_python_file(self):
-                call(["python3","{}".format(self.path)])
-        
-        c=CallPy()
-        c.call_python_file()
-    else:
-        st.text("Akurasi = silahkan download file csv terlebih dahulu !")
+    st.download_button(label="Download CSV", data=hasilAnalisis.to_csv(),mime="text/csv",file_name="data_tw.csv")
 
     tweet_positif = hasilAnalisis[hasilAnalisis["sentimen"]=="positif"]
     tweet_netral = hasilAnalisis[hasilAnalisis["sentimen"]=="netral"]
