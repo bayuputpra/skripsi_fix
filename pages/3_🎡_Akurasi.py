@@ -13,7 +13,7 @@ st.title("Perhitungan Akurasi")
 
 try:
     file_csv=st.file_uploader("Unggah File CSV")
-    df = pd.read_csv(file_csv)
+    df = pd.read_csv(file_csv.loc[:,["tgl","user","text","sentimen"]])
     df
 
     def analyze(score):
@@ -40,11 +40,11 @@ try:
     y_pred = y_pred.astype(np.int16)
 
     st.text('Model Report :\n'+classification_report(test.score_sentiment,y_pred,target_names=['positif','netral','negatif'],labels=[0, 1, 2]))
-    st.text('Data Testing : '+len(test),'%')
-    st.text('Data Training : '+len(train),'%')
-    st.text('Accuracy : '+accuracy_score(test.score_sentiment,y_pred))
-    st.text('F1 Score : '+f1_score(test.score_sentiment.astype(np.int16), y_pred, average='macro'))
-    st.text('Precision : '+precision_score(test.score_sentiment, y_pred, average='macro'))
-    st.text('Recall : '+recall_score(test.score_sentiment, y_pred, average='macro'))
+    st.write('Data Testing : '+len(test)+'%')
+    st.write('Data Training : '+len(train)+'%')
+    st.write('Accuracy : '+accuracy_score(test.score_sentiment,y_pred))
+    st.write('F1 Score : '+f1_score(test.score_sentiment.astype(np.int16), y_pred, average='macro'))
+    st.write('Precision : '+precision_score(test.score_sentiment, y_pred, average='macro'))
+    st.write('Recall : '+recall_score(test.score_sentiment, y_pred, average='macro'))
 except:
     print("error")
