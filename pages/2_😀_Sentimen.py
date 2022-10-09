@@ -30,7 +30,7 @@ try:
     searchcount = st.text_input("Masukan Jumlah Baris Yang Dicari")
     hasilSearch  = api.search_tweets(q=searchvalue, count = int(searchcount), lang='id')
 
-    hasilAnalisis = pd.DataFrame(columns=["tgl","user","text"])
+    hasilAnalisis = pd.DataFrame(columns=["tgl","user","text","sentimen"])
 
     for tweet in hasilSearch:
         tgl = tweet.created_at
@@ -38,54 +38,53 @@ try:
         text = tweet.text
         tweet_clear = " ".join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\s+)"," ", tweet.text).split())
 
-        file=[tgl, user, text]
+        positive=dict()
+        import csv
+        with open('positive.csv','r')as csvfile:
+            reader=csv.reader(csvfile,delimiter=',')
+            for row in reader:
+                positive[row[0]]=int(row[1])
+            
+        negative=dict()
+        import csv
+        with open('negative.csv','r')as csvfile:
+            reader=csv.reader(csvfile,delimiter=',')
+            for row in reader:
+                negative[row[0]]=int(row[1])
+
+        def sentiment_analysis_indonesia(tweet_clear):
+            score=0
+            for word in tweet_clear:
+                if(word in positive):
+                    score=score+positive[word]
+            for word in tweet_clear:
+                if(word in negative):
+                    score=score+negative[word]
+            sentimen=""
+            if (score > 0):
+                sentimen = "positif"
+            elif (score == 0):
+                sentimen = "netral"
+            else:
+                sentimen = "negatif"
+            return score,sentimen
+        
+        results=hasilAnalisis['text'].apply(sentiment_analysis_indonesia)
+        results=list(zip(*results))
+        hasilAnalisis['polarity_score']=results[0]
+        hasilAnalisis['sentimen']=results[1]
+        
+        file=[tgl,user,text,results]
         hasilAnalisis.loc[len(hasilAnalisis)]=file
 
     hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
-
-    positive=dict()
-    import csv
-    with open('positive.csv','r')as csvfile:
-        reader=csv.reader(csvfile,delimiter=',')
-        for row in reader:
-            positive[row[0]]=int(row[1])
-        
-    negative=dict()
-    import csv
-    with open('negative.csv','r')as csvfile:
-        reader=csv.reader(csvfile,delimiter=',')
-        for row in reader:
-            negative[row[0]]=int(row[1])
-
-    def sentiment_analysis_indonesia(tweet_clear):
-        score=0
-        for word in tweet_clear:
-            if(word in positive):
-                score=score+positive[word]
-        for word in tweet_clear:
-            if(word in negative):
-                score=score+negative[word]
-        polarity=''
-        if (score > 0):
-            polarity = "positif"
-        elif (score == 0):
-            polarity = "netral"
-        else:
-            polarity = "negatif"
-        return score,polarity
-    
-    results=hasilAnalisis['text'].apply(sentiment_analysis_indonesia)
-    results=list(zip(*results))
-    hasilAnalisis['polarity_score']=results[0]
-    hasilAnalisis['polarity']=results[1]
-
     st.text("Dataset")
-    st.write(hasilAnalisis['polarity'].value_counts())
+    st.write(hasilAnalisis['sentimen'].value_counts())
     st.download_button(label="Download CSV", data=hasilAnalisis.to_csv(),mime="text/csv",file_name="data_tw.csv")
 
-    tweet_positif = hasilAnalisis[hasilAnalisis["polarity"]=="positif"]
-    tweet_netral = hasilAnalisis[hasilAnalisis["polarity"]=="netral"]
-    tweet_negatif = hasilAnalisis[hasilAnalisis["polarity"]=="negatif"]
+    tweet_positif = hasilAnalisis[hasilAnalisis["sentimen"]=="positif"]
+    tweet_netral = hasilAnalisis[hasilAnalisis["sentimen"]=="netral"]
+    tweet_negatif = hasilAnalisis[hasilAnalisis["sentimen"]=="negatif"]
 
     st.text("Hasil Sentimen")
     jmlA=len(tweet_positif)
@@ -98,7 +97,7 @@ try:
     df
 
     st.text("Pie Chart")
-    sentiment_counts = hasilAnalisis.groupby(["polarity"]).size()
+    sentiment_counts = hasilAnalisis.groupby(["sentimen"]).size()
     fig,ax=plt.subplots()
     sentiment_counts.plot.pie(autopct='%1.1f%%', startangle=270, fontsize=12, label="")
     plt.figure(figsize=(6,6), dpi=100)
