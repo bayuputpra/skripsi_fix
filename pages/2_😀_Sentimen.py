@@ -1,8 +1,8 @@
 from cProfile import label
+from unittest import result
 from click import ClickException
 import tweepy
 import re
-from textblob import TextBlob
 import pandas as pd
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
@@ -38,29 +38,49 @@ try:
         text = tweet.text
         tweet_clear = " ".join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\s+)"," ", tweet.text).split())
 
-        try:
-            analysis = TextBlob(tweet_clear)
-        except:
-            print("error")
-
-        try:
-            analysis = analysis.translate(from_lang="id", to="en")
-        except Exception as e:
-            print(e)
-
-        if analysis.sentiment.polarity > 0.0:
-            sentimen = "positif"
-        elif analysis.sentiment.polarity == 0.0:
-            sentimen = "netral"
-        else:
-            sentimen = "negatif"
-        
-        file=[tgl, user, text, sentimen]
+        file=[tgl, user, text]
         hasilAnalisis.loc[len(hasilAnalisis)]=file
 
     hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
+
+    positive=dict()
+    import csv
+    with open('positive.csv','r')as csvfile:
+        reader=csv.reader(csvfile,delimiter=',')
+        for row in reader:
+            positive[row[0]]=int(row[1])
+        
+    negative=dict()
+    import csv
+    with open('negative.csv','r')as csvfile:
+        reader=csv.reader(csvfile,delimiter=',')
+        for row in reader:
+            negative[row[0]]=int(row[1])
+
+    def sentiment_analysis_indonesia(tweet_clear):
+        score=0
+        for word in tweet_clear:
+            if(word in positive):
+                score=score+positive[word]
+        for word in tweet_clear:
+            if(word in negative):
+                score=score+negative[word]
+        polarity=''
+        if (score > 0):
+            polarity = "positif"
+        elif (score == 0):
+            polarity = "netral"
+        else:
+            polarity = "negatif"
+        return score,polarity
+    
+    results=hasilAnalisis['text'].apply(sentiment_analysis_indonesia)
+    results=list(zip(*results))
+    hasilAnalisis['polarity_score']=results[0]
+    hasilAnalisis['sentimen']=results[1]
+
     st.text("Dataset")
-    st.write(hasilAnalisis)
+    st.write(hasilAnalisis['sentimen'].value_counts())
     st.download_button(label="Download CSV", data=hasilAnalisis.to_csv(),mime="text/csv",file_name="data_tw.csv")
 
     tweet_positif = hasilAnalisis[hasilAnalisis["sentimen"]=="positif"]
