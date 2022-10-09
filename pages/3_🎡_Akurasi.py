@@ -14,7 +14,7 @@ st.title("Perhitungan Akurasi")
 try:
     file_csv=st.file_uploader("Unggah File CSV")
     df = pd.read_csv(file_csv)
-    st.write(df.loc[:,["tgl","user","text","sentimen"]])
+    st.write(df.loc[:,["tgl","user","text","polarity_score","sentimen"]])
 
     def analyze(score):
         if score == "positif" :

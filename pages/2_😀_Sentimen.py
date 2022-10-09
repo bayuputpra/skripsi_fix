@@ -77,15 +77,15 @@ try:
     results=hasilAnalisis['text'].apply(sentiment_analysis_indonesia)
     results=list(zip(*results))
     hasilAnalisis['polarity_score']=results[0]
-    hasilAnalisis['polarity']=results[1]
+    hasilAnalisis['sentimen']=results[1]
 
     st.text("Dataset")
     st.write(hasilAnalisis)
     st.download_button(label="Download CSV", data=hasilAnalisis.to_csv(),mime="text/csv",file_name="data_tw.csv")
 
-    tweet_positif = hasilAnalisis[hasilAnalisis["polarity"]=="positif"]
-    tweet_netral = hasilAnalisis[hasilAnalisis["polarity"]=="netral"]
-    tweet_negatif = hasilAnalisis[hasilAnalisis["polarity"]=="negatif"]
+    tweet_positif = hasilAnalisis[hasilAnalisis["sentimen"]=="positif"]
+    tweet_netral = hasilAnalisis[hasilAnalisis["sentimen"]=="netral"]
+    tweet_negatif = hasilAnalisis[hasilAnalisis["sentimen"]=="negatif"]
 
     st.text("Hasil Sentimen")
     jmlA=len(tweet_positif)
@@ -98,7 +98,7 @@ try:
     df
 
     st.text("Pie Chart")
-    sentiment_counts = hasilAnalisis.groupby(["polarity"]).size()
+    sentiment_counts = hasilAnalisis.groupby(["sentimen"]).size()
     fig,ax=plt.subplots()
     sentiment_counts.plot.pie(autopct='%1.1f%%', startangle=270, fontsize=12, label="")
     plt.figure(figsize=(6,6), dpi=100)
