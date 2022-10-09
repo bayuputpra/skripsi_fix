@@ -30,7 +30,7 @@ try:
     searchcount = st.text_input("Masukan Jumlah Baris Yang Dicari")
     hasilSearch  = api.search_tweets(q=searchvalue, count = int(searchcount), lang='id')
 
-    hasilAnalisis = pd.DataFrame(columns=["tgl","user","text","polarity"])
+    hasilAnalisis = pd.DataFrame(columns=["tgl","user","text"])
 
     for tweet in hasilSearch:
         tgl = tweet.created_at
