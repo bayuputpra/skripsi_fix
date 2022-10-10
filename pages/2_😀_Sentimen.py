@@ -57,17 +57,6 @@ try:
 
     #function to determine sentiment polarity of tweets
     def sentiment_analysis_indonesia(text):
-        #removing number
-        text=text.lower()
-        text=re.sub(r"\d+","",text)
-        #remove mention,link,hashtag
-        text=' '.join(re.sub("([@#][A-Za-z0-9]+)|(\w+:\/\/\S+)"," ",text).split())
-        #remove punctuation
-        text=text.translate(text.maketrans("","",string.punctuation))
-        #remove whitespace
-        text=text.strip()
-        space=text.split()
-        text=word_tokenize(text)
         
         #for word in text
         score=0
@@ -84,7 +73,7 @@ try:
             polarity = "netral"
         else:
             polarity = "negatif"
-        return score,polarity,text
+        return score,polarity
     
     results=hasilAnalisis['text'].apply(sentiment_analysis_indonesia)
     results=list(zip(*results))
@@ -92,7 +81,7 @@ try:
     hasilAnalisis['sentimen']=results[1]
 
     st.text("Dataset")
-    st.write(hasilAnalisis)
+    st.write(hasilAnalisis['sentimen'].value_counts())
     st.download_button(label="Download CSV", data=hasilAnalisis.to_csv(),mime="text/csv",file_name="data_tw.csv")
 
     tweet_positif = hasilAnalisis[hasilAnalisis["sentimen"]=="positif"]
