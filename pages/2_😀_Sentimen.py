@@ -54,6 +54,7 @@ try:
         space=text.split()
         text=word_tokenize(text)
         return text
+        
     hasilAnalisis['text_clear']=hasilAnalisis['text'].apply(preProcess)
 
     positive=dict()
@@ -89,7 +90,7 @@ try:
             polarity = "negatif"
         return score,polarity
     
-    results=hasilAnalisis['text_clear'].apply(sentiment_analysis_indonesia)
+    results=hasilAnalisis['text'].apply(sentiment_analysis_indonesia)
     results=list(zip(*results))
     hasilAnalisis['polarity_score']=results[0]
     hasilAnalisis['sentimen']=results[1]
