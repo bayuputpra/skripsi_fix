@@ -36,17 +36,7 @@ try:
         user = tweet.user.screen_name
         text = tweet.text
 
-        #removing number
-        text=text.lower()
-        text=re.sub(r"\d+","",text)
-        #remove mention,link,hashtag
-        text=' '.join(re.sub("([@#][A-Za-z0-9]+)|(\w+:\/\/\S+)"," ",text).split())
-        #remove punctuation
-        text=text.translate(text.maketrans("","",string.punctuation))
-        #remove whitespace
-        text=text.strip()
-        space=text.split()
-        text=word_tokenize(text)
+        
 
         file=[tgl, user, text]
         hasilAnalisis.loc[len(hasilAnalisis)]=file
@@ -92,7 +82,7 @@ try:
     hasilAnalisis['sentimen']=results[1]
 
     st.text("Dataset")
-    st.write(hasilAnalisis['sentimen'].value_counts())
+    st.write(hasilAnalisis)
     st.download_button(label="Download CSV", data=hasilAnalisis.to_csv(),mime="text/csv",file_name="data_tw.csv")
 
     tweet_positif = hasilAnalisis[hasilAnalisis["sentimen"]=="positif"]
