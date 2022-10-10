@@ -36,6 +36,12 @@ try:
         user = tweet.user.screen_name
         text = tweet.text
 
+        file=[tgl, user, text]
+        hasilAnalisis.loc[len(hasilAnalisis)]=file
+
+    hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
+
+    def preProcess(text):
         #removing number
         text=text.lower()
         text=re.sub(r"\d+","",text)
@@ -47,11 +53,9 @@ try:
         text=text.strip()
         space=text.split()
         text=word_tokenize(text)
-
-        file=[tgl, user, text]
-        hasilAnalisis.loc[len(hasilAnalisis)]=file
-
-    hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
+        return text
+        
+    hasilAnalisis['text_clear']=hasilAnalisis['text'].apply(preProcess)
 
     positive=dict()
     import csv
@@ -86,13 +90,13 @@ try:
             polarity = "negatif"
         return score,polarity
     
-    results=hasilAnalisis['text'].apply(sentiment_analysis_indonesia)
+    results=hasilAnalisis['text_clear'].apply(sentiment_analysis_indonesia)
     results=list(zip(*results))
     hasilAnalisis['polarity_score']=results[0]
     hasilAnalisis['sentimen']=results[1]
 
     st.text("Dataset")
-    st.write(hasilAnalisis)
+    st.write(hasilAnalisis['sentimen'].value_counts())
     st.download_button(label="Download CSV", data=hasilAnalisis.to_csv(),mime="text/csv",file_name="data_tw.csv")
 
     tweet_positif = hasilAnalisis[hasilAnalisis["sentimen"]=="positif"]
