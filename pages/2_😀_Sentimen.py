@@ -54,8 +54,8 @@ try:
         space=text.split()
         text=word_tokenize(text)
         return text
-        
-    hasilAnalisis['text_clear']=hasilAnalisis['text'].apply(preProcess)
+
+    hasilAnalisis['text']=hasilAnalisis['text'].apply(preProcess)
 
     positive=dict()
     import csv
