@@ -55,7 +55,7 @@ try:
         text=word_tokenize(text)
         return text
 
-    hasilAnalisis['text']=hasilAnalisis['text'].apply(preProcess)
+    hasilAnalisis['text'].apply(preProcess)
 
     positive=dict()
     import csv
