@@ -36,12 +36,6 @@ try:
         user = tweet.user.screen_name
         text = tweet.text
 
-        file=[tgl, user, text]
-        hasilAnalisis.loc[len(hasilAnalisis)]=file
-
-    hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
-
-    def preProcess(text):
         #removing number
         text=text.lower()
         text=re.sub(r"\d+","",text)
@@ -53,9 +47,11 @@ try:
         text=text.strip()
         space=text.split()
         text=word_tokenize(text)
-        return text
 
-    hasilAnalisis=hasilAnalisis['text'].apply(preProcess)
+        file=[tgl, user, text]
+        hasilAnalisis.loc[len(hasilAnalisis)]=file
+
+    hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
 
     positive=dict()
     import csv
