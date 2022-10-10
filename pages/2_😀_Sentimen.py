@@ -1,12 +1,11 @@
-from cProfile import label
-from unittest import result
-from click import ClickException
 import tweepy
 import re
 import pandas as pd
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import streamlit as st
+from nltk.tokenize import word_tokenize
+import string
 
 st.sidebar.success("Pilih Halaman Diatas")
 
@@ -36,12 +35,26 @@ try:
         tgl = tweet.created_at
         user = tweet.user.screen_name
         text = tweet.text
-        tweet_clear = " ".join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\s+)"," ", tweet.text).split())
 
         file=[tgl, user, text]
         hasilAnalisis.loc[len(hasilAnalisis)]=file
 
     hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
+
+    def preProcess(text):
+        #removing number
+        text=text.lower()
+        text=re.sub(r"\d+","",text)
+        #remove mention,link,hashtag
+        text=' '.join(re.sub("([@#][A-Za-z0-9]+)|(\w+:\/\/\S+)"," ",text).split())
+        #remove punctuation
+        text=text.translate(text.maketrans("","",string.punctuation))
+        #remove whitespace
+        text=text.strip()
+        space=text.split()
+        text=word_tokenize(text)
+        return text
+    hasilAnalisis['text_clear']=hasilAnalisis['text'].apply(preProcess)
 
     positive=dict()
     import csv
@@ -57,12 +70,14 @@ try:
         for row in reader:
             negative[row[0]]=int(row[1])
 
-    def sentiment_analysis_indonesia(tweet_clear):
+    #function to determine sentiment polarity of tweets
+    def sentiment_analysis_indonesia(text):
+        #for word in text
         score=0
-        for word in tweet_clear:
+        for word in text:
             if(word in positive):
                 score=score+positive[word]
-        for word in tweet_clear:
+        for word in text:
             if(word in negative):
                 score=score+negative[word]
         polarity=''
@@ -74,7 +89,7 @@ try:
             polarity = "negatif"
         return score,polarity
     
-    results=hasilAnalisis['text'].apply(sentiment_analysis_indonesia)
+    results=hasilAnalisis['text_clear'].apply(sentiment_analysis_indonesia)
     results=list(zip(*results))
     hasilAnalisis['polarity_score']=results[0]
     hasilAnalisis['sentimen']=results[1]

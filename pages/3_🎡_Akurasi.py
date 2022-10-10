@@ -26,7 +26,7 @@ try:
 
     df['score_sentiment'] = df['sentimen'].apply(analyze)
 
-    train, test = train_test_split(df, test_size=0.2, random_state=30)
+    train, test = train_test_split(df, train_size=0.2, random_state=30)
 
     #Feature Extraction
     cv = CountVectorizer()
