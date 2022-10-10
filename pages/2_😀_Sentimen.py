@@ -43,14 +43,14 @@ try:
 
     positive=dict()
     import csv
-    with open('positive.csv','r')as csvfile:
+    with open('../positive.csv','r')as csvfile:
         reader=csv.reader(csvfile,delimiter=',')
         for row in reader:
             positive[row[0]]=int(row[1])
         
     negative=dict()
     import csv
-    with open('negative.csv','r')as csvfile:
+    with open('../negative.csv','r')as csvfile:
         reader=csv.reader(csvfile,delimiter=',')
         for row in reader:
             negative[row[0]]=int(row[1])
@@ -81,7 +81,7 @@ try:
     hasilAnalisis['sentimen']=results[1]
 
     st.text("Dataset")
-    st.write(hasilAnalisis['sentimen'].value_counts())
+    st.write(hasilAnalisis)
     st.download_button(label="Download CSV", data=hasilAnalisis.to_csv(),mime="text/csv",file_name="data_tw.csv")
 
     tweet_positif = hasilAnalisis[hasilAnalisis["sentimen"]=="positif"]
