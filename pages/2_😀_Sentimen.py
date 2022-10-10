@@ -36,8 +36,6 @@ try:
         user = tweet.user.screen_name
         text = tweet.text
 
-        
-
         file=[tgl, user, text]
         hasilAnalisis.loc[len(hasilAnalisis)]=file
 
@@ -59,6 +57,18 @@ try:
 
     #function to determine sentiment polarity of tweets
     def sentiment_analysis_indonesia(text):
+        #removing number
+        text=text.lower()
+        text=re.sub(r"\d+","",text)
+        #remove mention,link,hashtag
+        text=' '.join(re.sub("([@#][A-Za-z0-9]+)|(\w+:\/\/\S+)"," ",text).split())
+        #remove punctuation
+        text=text.translate(text.maketrans("","",string.punctuation))
+        #remove whitespace
+        text=text.strip()
+        space=text.split()
+        text=word_tokenize(text)
+        
         #for word in text
         score=0
         for word in text:
