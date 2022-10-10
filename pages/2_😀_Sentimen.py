@@ -84,7 +84,7 @@ try:
             polarity = "netral"
         else:
             polarity = "negatif"
-        return score,polarity
+        return score,polarity,text
     
     results=hasilAnalisis['text'].apply(sentiment_analysis_indonesia)
     results=list(zip(*results))
