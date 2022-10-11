@@ -5,6 +5,7 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import streamlit as st
 import nltk
+nltk.download('punkt')
 from nltk.tokenize import word_tokenize
 import string
 
