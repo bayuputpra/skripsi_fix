@@ -96,6 +96,7 @@ def main():
         hasilAnalisis['sentimen']=results[1]
 
         st.text("Dataset")
+        hasilAnalisis.reset_index()
         st.write(hasilAnalisis)
         st.download_button(label="Download CSV", data=hasilAnalisis.to_csv(),mime="text/csv",file_name="data_tw.csv")
 
