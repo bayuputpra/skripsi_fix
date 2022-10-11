@@ -4,6 +4,7 @@ import pandas as pd
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import streamlit as st
+import nltk
 from nltk.tokenize import word_tokenize
 import string
 
