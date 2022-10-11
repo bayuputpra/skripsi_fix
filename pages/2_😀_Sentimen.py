@@ -23,8 +23,8 @@ def main():
 
     #try:
         searchvalue = st.text_input("Masukan Topik Pembahasan Yang Dicari")
-        searchcount = st.text_input("Masukan Jumlah Baris Yang Dicari")
-        hasilSearch  = api.search_tweets(q=searchvalue, count = int(searchcount), lang='id')
+        searchcount = st.slider("Masukan Jumlah Baris Yang Dicari")
+        hasilSearch  = api.search_tweets(q=searchvalue, count = searchcount, lang='id')
 
         hasilAnalisis = pd.DataFrame(columns=["tgl","user","text"])
 
