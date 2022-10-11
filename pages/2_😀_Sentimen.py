@@ -43,21 +43,20 @@ try:
 
     positive=dict()
     import csv
-    with open('../positive.csv','r')as csvfile:
+    with open('positive.csv')as csvfile:
         reader=csv.reader(csvfile,delimiter=',')
         for row in reader:
             positive[row[0]]=int(row[1])
         
     negative=dict()
     import csv
-    with open('../negative.csv','r')as csvfile:
+    with open('negative.csv')as csvfile:
         reader=csv.reader(csvfile,delimiter=',')
         for row in reader:
             negative[row[0]]=int(row[1])
 
     #function to determine sentiment polarity of tweets
     def sentiment_analysis_indonesia(text):
-        
         #for word in text
         score=0
         for word in text:
