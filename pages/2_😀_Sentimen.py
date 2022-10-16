@@ -21,9 +21,9 @@ auth.set_access_token(access_token,access_token_secret)
 api = tweepy.API(auth)
 
 def main():
-    st.title("Sentimen Analisis Twitter") 
+    #st.title("Sentimen Analisis Twitter") 
 
-    try:
+    #try:
         searchvalue = st.text_input("Masukan Topik Pembahasan Yang Dicari")
         searchcount = st.text_input("Masukan Jumlah Baris Yang Dicari")
         baris=int(searchcount)
@@ -130,8 +130,8 @@ def main():
             plt.show()
             st.set_option('deprecation.showPyplotGlobalUse', False)
         st.pyplot(PlotWordcloud())
-    except:
-        print("error")
+    #except:
+        #print("error")
 
 if __name__=='__main__':
         main()
