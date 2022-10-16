@@ -27,7 +27,7 @@ def main():
         searchvalue = st.text_input("Masukan Topik Pembahasan Yang Dicari")
         searchcount = st.text_input("Masukan Jumlah Baris Yang Dicari")
         baris=int(searchcount)
-        for hasilSearch in tweepy.Cursor (api.search_tweets, q=searchvalue, count = baris, lang='id').hasilSearch():
+        for hasilSearch in tweepy.Cursor (api.search_tweets, q=searchvalue, count = baris, lang='id').items():
 
             hasilAnalisis = pd.DataFrame(columns=["tgl","user","text"])
 
