@@ -27,7 +27,7 @@ def main():
         searchvalue = st.text_input("Masukan Topik Pembahasan Yang Dicari")
         searchcount = st.text_input("Masukan Jumlah Baris Yang Dicari")
         baris=int(searchcount)
-        hasilSearch  = api.search_tweets(q=searchvalue, count = baris, lang='id', tweet_mode= 'extended')
+        hasilSearch  = api.search_tweets(q=searchvalue, count = baris, lang='id').flatten(limit=1000)
 
         hasilAnalisis = pd.DataFrame(columns=["tgl","user","text"])
 
