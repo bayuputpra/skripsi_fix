@@ -27,17 +27,17 @@ def main():
         searchvalue = st.text_input("Masukan Topik Pembahasan Yang Dicari")
         searchcount = st.text_input("Masukan Jumlah Baris Yang Dicari")
         baris=int(searchcount)
-        hasilSearch  = api.search_tweets(q=searchvalue, count = baris, lang='id', max_results=1000)
+        for hasilSearch in tweepy.Cursor (api.search_tweets, q=searchvalue, count = baris, lang='id').hasilSearch():
 
-        hasilAnalisis = pd.DataFrame(columns=["tgl","user","text"])
+            hasilAnalisis = pd.DataFrame(columns=["tgl","user","text"])
 
-        for tweet in hasilSearch:
-            tgl = tweet.created_at
-            user = tweet.user.screen_name
-            text = tweet.text
+            for tweet in hasilSearch:
+                tgl = tweet.created_at
+                user = tweet.user.screen_name
+                text = tweet.text
 
-            file=[tgl, user, text]
-            hasilAnalisis.loc[len(hasilAnalisis)]=file
+                file=[tgl, user, text]
+                hasilAnalisis.loc[len(hasilAnalisis)]=file
 
         hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
 
