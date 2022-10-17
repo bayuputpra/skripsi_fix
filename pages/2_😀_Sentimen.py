@@ -18,7 +18,7 @@ access_token_secret = "V6v2pWhhVmpJb3KL3xMKlgA8i3w9toH4cScxOXAf39gR2"
 
 auth = tweepy.OAuthHandler(api_key,api_secret_key)
 auth.set_access_token(access_token,access_token_secret)
-api = tweepy.API(auth)
+api = tweepy.API(auth,wait_on_rate_limit=True)
 
 def main():
     st.title("Sentimen Analisis Twitter") 
