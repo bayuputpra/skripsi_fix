@@ -21,13 +21,13 @@ auth.set_access_token(access_token,access_token_secret)
 api = tweepy.API(auth)
 
 def main():
-    st.title("Sentimen Analisis Twitter") 
+    #st.title("Sentimen Analisis Twitter") 
 
-    try:
+    #try:
         searchvalue = st.text_input("Masukan Topik Pembahasan Yang Dicari")
         searchcount = st.text_input("Masukan Jumlah Baris Yang Dicari")
         hasilAnalisis = pd.DataFrame(columns=["tgl","user","text"])
-        for tweet in tweepy.Paginator (api.search_tweets, q=searchvalue, max_results=100, lang='id').flatten(int(searchcount)):
+        for tweet in tweepy.Paginator (api.search_tweets, q=searchvalue, max_results=100, lang='id').flatten(searchcount):
             tgl = tweet.created_at
             user = tweet.user.screen_name
             text = tweet.text
@@ -126,8 +126,8 @@ def main():
             plt.show()
             st.set_option('deprecation.showPyplotGlobalUse', False)
         st.pyplot(PlotWordcloud())
-    except:
-        print("error")
+    #except:
+        #print("error")
 
 if __name__=='__main__':
         main()
