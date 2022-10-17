@@ -26,8 +26,11 @@ def main():
     try:
         searchvalue = st.text_input("Masukan Topik Pembahasan Yang Dicari")
         searchcount = st.text_input("Masukan Jumlah Baris Yang Dicari")
+        hasilSearch = api.search_tweets (q=searchvalue, count = int(searchcount), lang='id', tweet_mode="extended")
+
         hasilAnalisis = pd.DataFrame(columns=["tgl","user","text"])
-        for tweet in tweepy.Cursor(api.search_tweets, q=searchvalue, count = int(searchcount), lang='id', tweet_mode="extended").items(1000):
+
+        for tweet in hasilSearch:
             tgl = tweet.created_at
             user = tweet.user.screen_name
             text = tweet.text
