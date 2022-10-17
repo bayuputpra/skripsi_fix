@@ -26,11 +26,8 @@ def main():
     try:
         searchvalue = st.text_input("Masukan Topik Pembahasan Yang Dicari")
         searchcount = st.text_input("Masukan Jumlah Baris Yang Dicari")
-        hasilSearch = api.search_tweets (q=searchvalue, count = int(searchcount), lang='id', tweet_mode="extended")
-
         hasilAnalisis = pd.DataFrame(columns=["tgl","user","text"])
-
-        for tweet in hasilSearch:
+        for tweet in tweepy.Paginator (api.search_tweets, q=searchvalue, max_results=100, lang='id').flatten(int(searchcount)):
             tgl = tweet.created_at
             user = tweet.user.screen_name
             text = tweet.text
