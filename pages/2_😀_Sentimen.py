@@ -26,16 +26,15 @@ def main():
     #try:
         searchvalue = st.text_input("Masukan Topik Pembahasan Yang Dicari")
         searchcount = st.number_input("Masukan Jumlah Baris Yang Dicari")
-        tgl=[]
-        user=[]
-        text=[]
+        hasilAnalisis = pd.DataFrame(columns=["tgl","user","text"])
         for tweet in tweepy.Paginator (api.search_tweets, q=searchvalue, max_results=100, lang='id').flatten(searchcount):
-            tgl.append(tweet.created_at)
-            user.append(tweet.user.screen_name)
-            text.append(tweet.text)
+            tgl = tweet.created_at
+            user = tweet.user.screen_name
+            text = tweet.text
 
-        file={"tgl":tgl,"user":user,"text":text}
-        hasilAnalisis = pd.DataFrame(file, columns=["tgl","user","text"])
+            file=[tgl, user, text]
+            hasilAnalisis.loc[file]
+
         hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
 
         def preProcess(text):
