@@ -26,15 +26,16 @@ def main():
     try:
         searchvalue = st.text_input("Masukan Topik Pembahasan Yang Dicari")
         searchcount = st.text_input("Masukan Jumlah Baris Yang Dicari")
-        hasilAnalisis = pd.DataFrame(columns=["tgl","user","text"])
-        for hasilSearch in tweepy.Cursor (api.search_tweets, q=searchvalue, count = int(searchcount), lang='id').items():
-            for tweet in hasilSearch:
-                tgl = tweet.created_at
-                user = tweet.user.screen_name
-                text = tweet.text
-                file=[tgl, user, text]
-                hasilAnalisis.loc[len(hasilAnalisis)]=file
+        tgl=[]
+        user=[]
+        text=[]
+        for tweet in tweepy.Cursor (api.search_tweets, q=searchvalue, count = int(searchcount), lang='id').items():
+            tgl.append(tweet.created_at)
+            user.append(tweet.user.screen_name)
+            text.append(tweet.text)
 
+        dictTweets={"tgl":tgl,"user":user,"text":text}
+        hasilAnalisis = pd.DataFrame(dictTweets,columns=["tgl","user","text"])
         hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
 
         def preProcess(text):
