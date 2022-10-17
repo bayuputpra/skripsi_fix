@@ -18,7 +18,7 @@ access_token_secret = "V6v2pWhhVmpJb3KL3xMKlgA8i3w9toH4cScxOXAf39gR2"
 
 auth = tweepy.OAuthHandler(api_key,api_secret_key)
 auth.set_access_token(access_token,access_token_secret)
-api = tweepy.API(auth,wait_on_rate_limit=True)
+api = tweepy.API(auth)
 
 def main():
     st.title("Sentimen Analisis Twitter") 
@@ -26,18 +26,16 @@ def main():
     try:
         searchvalue = st.text_input("Masukan Topik Pembahasan Yang Dicari")
         searchcount = st.text_input("Masukan Jumlah Baris Yang Dicari")
-        hasilSearch = tweepy.Cursor(api.search_tweets, q=searchvalue, lang='id', tweet_mode="extended").items(int(searchcount))
+        tgl=[]
+        user=[]
+        text=[]
+        for tweet in tweepy.Cursor(api.search_tweets, q=searchvalue, count = int(searchcount), lang='id', tweet_mode="extended").items():
+            tgl.append(tweet.created_at)
+            user.append(tweet.user.screen_name)
+            text.append(tweet.text)
 
-        hasilAnalisis = pd.DataFrame(columns=["tgl","user","text"])
-
-        for tweet in hasilSearch:
-            tgl = tweet.created_at
-            user = tweet.user.screen_name
-            text = tweet.text
-
-            file=[tgl, user, text]
-            hasilAnalisis.loc[len(hasilAnalisis)]=file
-
+        dictTweets={"tgl":tgl,"user":user,"text":text}
+        hasilAnalisis = pd.DataFrame(dictTweets,columns=["tgl","user","text"])
         hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
 
         def preProcess(text):
