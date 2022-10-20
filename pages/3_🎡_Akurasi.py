@@ -26,7 +26,7 @@ try:
 
     df['score_sentiment'] = df['sentimen'].apply(analyze)
 
-    train, test = train_test_split(df, train_size=0.6, random_state=30)
+    train, test = train_test_split(df, test_size=0.6, random_state=30)
 
     #Feature Extraction
     cv = CountVectorizer()
@@ -39,7 +39,7 @@ try:
     y_pred = model.predict(X_test)
     y_pred = y_pred.astype(np.int16)
 
-    st.text('Model Report :\n'+classification_report(test.score_sentiment,y_pred,target_names=['positif','netral','negatif']))
+    st.text('Model Report :\n'+classification_report(test.score_sentiment,y_pred,target_names=['positif','netral','negatif'],labels=[0,1,2]))
     st.write('Data Testing : ',len(test),'%')
     st.write('Data Training : ',len(train),'%')
     st.write('Accuracy : ',accuracy_score(test.score_sentiment,y_pred))
