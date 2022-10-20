@@ -1,11 +1,11 @@
 import warnings
-import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import accuracy_score,classification_report,f1_score,precision_score,recall_score
+from sklearn.metrics import classification_report
 import streamlit as st
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
 
 warnings.filterwarnings('ignore')
 st.sidebar.success("Pilih Halaman Diatas")
@@ -26,25 +26,25 @@ try:
 
     df['score_sentiment'] = df['sentimen'].apply(analyze)
 
-    train, test = train_test_split(df, test_size=0.8, random_state=30)
+    #split
+    X_train, X_test, y_train, y_test = train_test_split(df,test_size = 0.2)
 
-    #Feature Extraction
-    cv = CountVectorizer()
-    X_train = cv.fit_transform(train.text)
-    X_test = cv.transform(test.text)
+    vectoriser = TfidfVectorizer(ngram_range=(1,2), max_features=500000)
+    vectoriser.fit(X_train)
 
-    #model
-    model = MultinomialNB()
-    model.fit(X_train, train.score_sentiment)
-    y_pred = model.predict(X_test)
-    y_pred = y_pred.astype(np.int16)
+    X_train = vectoriser.transform(X_train)
+    X_test  = vectoriser.transform(X_test)
 
-    st.text('Model Report :\n'+classification_report(test.score_sentiment,y_pred,target_names=['positif','netral','negatif'],labels=[0,1,2]))
-    st.write('Data Testing : ',len(test),'%')
-    st.write('Data Training : ',len(train),'%')
-    st.write('Accuracy : ',accuracy_score(test.score_sentiment,y_pred))
-    st.write('F1 Score : ',f1_score(test.score_sentiment.astype(np.int16), y_pred, average='macro'))
-    st.write('Precision : ',precision_score(test.score_sentiment, y_pred, average='macro'))
-    st.write('Recall : ',recall_score(test.score_sentiment, y_pred, average='macro'))
+    clf = LogisticRegression()
+    clf.fit(X_train, y_train)
+
+    #classifier dara
+    nb = MultinomialNB()
+    #nb = BernoulliNB()
+    nb.fit(X_train, y_train)
+    preds = nb.predict(X_test)
+    st.text(classification_report(y_test, preds))
+
+    st.write("Accuracy :", nb.score(X_test, y_test))
 except:
     print("error")
