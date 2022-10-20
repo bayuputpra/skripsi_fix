@@ -39,7 +39,7 @@ try:
     y_pred = model.predict(X_test)
     y_pred = y_pred.astype(np.int16)
 
-    st.text('Model Report :\n'+classification_report(test.score_sentiment,y_pred,target_names=['positif','netral','negatif'],labels=[0,1,2]))
+    st.text('Model Report :\n'+classification_report(test.score_sentiment,y_pred,target_names=['positif','netral','negatif']))
     st.write('Data Testing : ',len(test),'%')
     st.write('Data Training : ',len(train),'%')
     st.write('Accuracy : ',accuracy_score(test.score_sentiment,y_pred))
