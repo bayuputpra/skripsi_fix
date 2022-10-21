@@ -19,8 +19,6 @@ data = pd.read_csv(file_csv)
 st.write(data.iloc[:,1:-1])
 
 label_encoder = LabelEncoder()
-#remove kolom tgl,user
-st.write(data.iloc[:,0:1])
 #mengubah value diagnosis menjadi 1 dan 0 
 data.iloc[:,0:1] = label_encoder.fit_transform(data.iloc[:,0:1]).astype('float64')
 
