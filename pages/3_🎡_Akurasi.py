@@ -6,6 +6,7 @@ from sklearn import metrics
 from sklearn.preprocessing import LabelEncoder 
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report
+from datetime import datetime
 import streamlit as st
 
 warnings.filterwarnings('ignore')
@@ -20,7 +21,7 @@ st.write(data.iloc[:,1:-1])
 
 label_encoder = LabelEncoder()
 #mengubah value diagnosis menjadi 1 dan 0 
-data.iloc[:,0] = label_encoder.fit_transform(data.iloc[:,0]).astype(np.int16)
+data.iloc[:,0] = label_encoder.fit_transform(datetime.strptime(data.iloc[:,0], '%Y-%m-%d %H:%M:%S'))
 
 paramater = data.iloc[:,1:-1] 
 target = data.iloc[:,0]
