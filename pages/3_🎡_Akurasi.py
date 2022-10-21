@@ -20,7 +20,7 @@ st.write(data.iloc[:,1:-1])
 
 label_encoder = LabelEncoder()
 #mengubah value diagnosis menjadi 1 dan 0 
-data.iloc[:,0] = label_encoder.fit_transform(data.iloc[:,0]).astype('float64')
+data.iloc[:,0] = label_encoder.fit_transform(data.iloc[:,0])
 
 paramater = data.iloc[:,1:-1] 
 target = data.iloc[:,0]
