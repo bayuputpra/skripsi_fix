@@ -19,11 +19,13 @@ data = pd.read_csv(file_csv)
 st.write(data.iloc[:,1:-1])
 
 label_encoder = LabelEncoder()
+#remove kolom tgl,user
+st.write(data.iloc[:,0:1])
 #mengubah value diagnosis menjadi 1 dan 0 
-data.iloc[:,0:1:2] = label_encoder.fit_transform(data.iloc[:,0:1:2]).astype('float64')
+data.iloc[:,0:1] = label_encoder.fit_transform(data.iloc[:,0:1]).astype('float64')
 
 paramater = data.iloc[:,1:-1] 
-target = data.iloc[:,0:1:2]
+target = data.iloc[:,0:1]
 
 x_train, x_test, y_train, y_test = train_test_split(paramater.values, target.values, test_size = 0.2)
 
