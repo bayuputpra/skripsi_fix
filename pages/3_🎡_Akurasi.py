@@ -21,7 +21,7 @@ st.write(data.iloc[:,1:-1])
 
 label_encoder = LabelEncoder()
 #convert tgl ke float
-dt = datetime.strptime(data.iloc[:,0], '%Y-%m-%d %H:%M:%S')
+dt = datetime.strptime(str(data.iloc[:,0]), "%Y-%m-%d").date()
 #mengubah value diagnosis menjadi 1 dan 0 
 data.iloc[:,0] = label_encoder.fit_transform(dt.astype('float64'))
 
