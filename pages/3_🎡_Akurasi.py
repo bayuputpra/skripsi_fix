@@ -1,50 +1,38 @@
 import warnings
+import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import MultinomialNB
+from sklearn import metrics 
+from sklearn.preprocessing import LabelEncoder 
+from sklearn.svm import SVC
 from sklearn.metrics import classification_report
 import streamlit as st
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
 
 warnings.filterwarnings('ignore')
 st.sidebar.success("Pilih Halaman Diatas")
 st.title("Perhitungan Akurasi")
 
-#try:
-file_csv=st.file_uploader("Unggah File CSV")
-df = pd.read_csv(file_csv)
-st.write(df.loc[:,["tgl","user","text","polarity_score","sentimen"]])
+try:
+    file_csv=st.file_uploader("Unggah File CSV")
+    data = pd.read_csv(file_csv)
+    #remove kolom id
+    st.write(data.iloc[:,1:-1])
 
-def analyze(score):
-    if score == "positif" :
-        return 1
-    elif score == "netral" :
-        return 0
-    else:
-        return -1
+    label_encoder = LabelEncoder()
+    #mengubah value diagnosis menjadi 1 dan 0 
+    data.iloc[:,0] = label_encoder.fit_transform(data.iloc[:,0]).astype('float64')
 
-df['score_sentiment'] = df['sentimen'].apply(analyze)
+    paramater = data.iloc[:,1:-1] 
+    target = data.iloc[:,0]
 
-#split
-X_train, X_test, y_train, y_test = train_test_split(df,test_size = 0.2)
+    x_train, x_test, y_train, y_test = train_test_split(paramater.values, target.values, test_size = 0.2)
 
-vectoriser = TfidfVectorizer(ngram_range=(1,2), max_features=500000)
-vectoriser.fit(X_train)
+    # The default kernel adalah gaussian kernel
+    svc = SVC() 
+    svc.fit(x_train, y_train) 
+    prediction = svc.predict(x_test)
 
-X_train = vectoriser.transform(X_train)
-X_test  = vectoriser.transform(X_test)
-
-clf = LogisticRegression()
-clf.fit(X_train, y_train)
-
-#classifier dara
-nb = MultinomialNB()
-#nb = BernoulliNB()
-nb.fit(X_train, y_train)
-preds = nb.predict(X_test)
-st.text(classification_report(y_test, preds))
-
-st.write("Accuracy :", nb.score(X_test, y_test))
-#except:
-    #print("error")
+    st.text('Model Report :\n'+classification_report(y_test, prediction,target_names=['positif','netral','negatif'],labels=[0,1,2]))
+    st.write("Akurasi : ",metrics.accuracy_score(y_test, prediction))
+except:
+    print("error")
