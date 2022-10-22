@@ -26,7 +26,7 @@ def analyze(score):
 
 df['score_sentiment'] = df['sentimen'].apply(analyze)
 
-df['text']=df['text'].astype(float)
+df['text']=df['text'].apply(lambda x: float(x.split()[0].replace('')))
 X=np.log(df['text'])
 y=df['score_sentiment']
 
