@@ -1,41 +1,43 @@
-import warnings
-import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sn
+from sklearn import svm
+from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import train_test_split
-from sklearn import metrics 
-from sklearn.preprocessing import LabelEncoder 
-from sklearn.svm import SVC
-from sklearn.metrics import classification_report
-from datetime import datetime
 import streamlit as st
 
-warnings.filterwarnings('ignore')
 st.sidebar.success("Pilih Halaman Diatas")
 st.title("Perhitungan Akurasi")
 
 #try:
 file_csv=st.file_uploader("Unggah File CSV")
-data = pd.read_csv(file_csv)
-#remove kolom nomer
-st.write(data.iloc[:,1:-1])
+#impor CSV ke dataset
+df = pd.read_csv(file_csv)
 
-label_encoder = LabelEncoder()
-#convert tgl ke float
-dt = int(data.iloc[:,0].strftime("%Y%m%d%H%M%S"))
-#mengubah value diagnosis menjadi 1 dan 0 
-data.iloc[:,0] = label_encoder.fit_transform(dt.astype('float64'))
+st.write(df.loc[:,["tgl","user","text","polarity_score","sentimen"]])
 
-paramater = data.iloc[:,1:-1] 
-target = data.iloc[:,0]
+def analyze(score):
+   if score == "positif" :
+      return 1
+   elif score == "netral" :
+      return 0
+   else:
+      return -1
 
-x_train, x_test, y_train, y_test = train_test_split(paramater.values, target.values, test_size = 0.2)
-
-# The default kernel adalah gaussian kernel
-svc = SVC() 
-svc.fit(x_train, y_train) 
-prediction = svc.predict(x_test)
-
-st.text('Model Report :\n'+classification_report(y_test, prediction,target_names=['positif','netral','negatif'],labels=[0,1,2]))
-st.write("Akurasi : ",metrics.accuracy_score(y_test, prediction))
+df['score_sentiment'] = df['sentimen'].apply(analyze)
+ 
+X_train, X_test, y_train, y_test = train_test_split(df, test_size = 0.2)
+ 
+#menggunakan SVM library untuk membuat SVM classifier
+classifier = svm.SVC(kernel = 'linear')
+ 
+#memasukkan training data kedalam classifier
+classifier.fit(X_train, y_train)
+ 
+#memasukkan testing data ke variabel y_predict
+y_predict = classifier.predict(X_test)
+ 
+#menampilkan classification report
+st.text(classification_report(y_test, y_predict,target_names=['positif','netral','negatif'],labels=[0,1,2]))
 #except:
    #print("error")
