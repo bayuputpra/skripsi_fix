@@ -1,7 +1,9 @@
 import pandas as pd
-from sklearn import svm
-from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score,precision_score,recall_score,f1_score,classification_report
 import streamlit as st
 
 st.sidebar.success("Pilih Halaman Diatas")
@@ -14,28 +16,20 @@ df = pd.read_csv(file_csv)
 
 st.write(df.loc[:,["tgl","user","text","polarity_score","sentimen"]])
 
-def analyze(score):
-   if score == "positif" :
-      return 1
-   elif score == "netral" :
-      return 0
-   else:
-      return -1
+df=df.astype({'sentimen' : 'category'})
+df=df.astype({'text' : 'string'})
+tf=TfidfVectorizer()
+text_tf=tf.fit_transform(df['text'].astype('U'))
 
-df['score_sentiment'] = df['sentimen'].apply(analyze)
+X_train, X_test, y_train, y_test = train_test_split(text_tf,df['sentimen'], test_size = 0.2, random_state=42)
  
-X_train, X_test, y_train, y_test = train_test_split(df, test_size = 0.2)
- 
-#menggunakan SVM library untuk membuat SVM classifier
-classifier = svm.SVC(kernel = 'linear')
- 
-#memasukkan training data kedalam classifier
-classifier.fit(X_train, y_train)
- 
-#memasukkan testing data ke variabel y_predict
-y_predict = classifier.predict(X_test)
- 
-#menampilkan classification report
-st.text(classification_report(y_test, y_predict,target_names=['positif','netral','negatif'],labels=[0,1,2]))
+clf=MultinomialNB().fit(X_train,y_train)
+predicted=clf.predict(X_test)
+st.write("Accuracy   : ",accuracy_score(y_test,predicted))
+st.write("Precision  : ",precision_score(y_test,predicted,average="binary",pos_label="NEGATIF"))
+st.write("Recall     : ",recall_score(y_test,predicted,average="binary",pos_label="NEGATIF"))
+st.write("F1 Score   : ",f1_score(y_test,predicted,average="binary",pos_label="NEGATIF"))
+
+st.text(classification_report(y_test,predicted,zero_division=0,target_names=['positif','netral','negatif'],labels=[0,1,2]))
 #except:
    #print("error")
