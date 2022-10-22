@@ -26,9 +26,9 @@ X_train, X_test, y_train, y_test = train_test_split(text_tf,df['sentimen'], test
 clf=MultinomialNB().fit(X_train,y_train)
 predicted=clf.predict(X_test)
 st.write("Accuracy   : ",accuracy_score(y_test,predicted))
-st.write("Precision  : ",precision_score(y_test,predicted,average="micro",pos_label="positif"))
-st.write("Recall     : ",recall_score(y_test,predicted,average="micro",pos_label="positif"))
-st.write("F1 Score   : ",f1_score(y_test,predicted,average="micro",pos_label="positif"))
+st.write("Precision  : ",precision_score(y_test,predicted,average="macro",pos_label="positif"))
+st.write("Recall     : ",recall_score(y_test,predicted,average="macro",pos_label="positif"))
+st.write("F1 Score   : ",f1_score(y_test,predicted,average="macro",pos_label="positif"))
 
 st.text(classification_report(y_test,predicted,zero_division=0,target_names=['positif','netral','negatif'],labels=[0,1,2]))
 #except:
