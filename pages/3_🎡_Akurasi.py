@@ -26,7 +26,7 @@ def analyze(score):
 
 df['score_sentiment'] = df['sentimen'].apply(analyze)
 
-X=float(df['text'])
+X=np.log(df['text'])
 y=df['score_sentiment']
 
 X_train, X_test, y_train,y_test = train_test_split(X,y, test_size=0.2)
