@@ -45,6 +45,6 @@ st.write('Accuracy : ',accuracy_score(y_test,pred))
 st.write('F1 Score : ',f1_score(y_test.astype(np.int16), pred, average='macro'))
 st.write('Precision : ',precision_score(y_test, pred, average='macro'))
 st.write('Recall : ',recall_score(y_test, pred, average='macro'))
-st.text('Model Report :\n'+classification_report(y_test,pred,target_names=['positif','netral','negatif']))
+st.text('Model Report :\n'+classification_report(y_test,pred,target_names=['positif','netral','negatif'],labels=[0,1,2]))
 #except:
    #print("error")
