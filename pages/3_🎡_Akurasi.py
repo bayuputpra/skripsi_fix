@@ -30,11 +30,17 @@ X=df['text_clear']
 y=df['score_sentiment']
 
 bow_transformer=CountVectorizer()
+print(df['text_clear'].shape)
 X=bow_transformer.fit_transform(df['text_clear'])
+
+print(X.toarray())
+print('Shape of Sparse Matrix: ',X.shape)
+print('Amount of Non-Zero occurrences: ',X.nnz)
 
 #TFID Transform
 tf_transform=TfidfTransformer(use_idf=False).fit(X)
 X=tf_transform.transform(X)
+print(X.shape)
 
 X_train, X_test, y_train,y_test = train_test_split(X,y, test_size=0.2)
 
