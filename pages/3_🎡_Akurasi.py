@@ -26,11 +26,11 @@ def analyze(score):
 
 df['score_sentiment'] = df['sentimen'].apply(analyze)
 
-X=df['text']
+X=df['text_clear']
 y=df['score_sentiment']
 
 bow_transformer=CountVectorizer()
-X=bow_transformer.fit_transform(df['text'])
+X=bow_transformer.fit_transform(df['text_clear'])
 
 #TFID Transform
 tf_transform=TfidfTransformer(use_idf=False).fit(X)
@@ -44,9 +44,9 @@ model.fit(X_train, y_train)
 pred = model.predict(X_test)
 
 st.write('Accuracy : ',accuracy_score(y_test,pred))
-st.write('F1 Score : ',f1_score(y_test.astype(np.int16), pred, average='micro'))
-st.write('Precision : ',precision_score(y_test, pred, average='micro'))
-st.write('Recall : ',recall_score(y_test, pred, average='micro'))
+st.write('F1 Score : ',f1_score(y_test.astype(np.int16), pred, average='macro'))
+st.write('Precision : ',precision_score(y_test, pred, average='macro'))
+st.write('Recall : ',recall_score(y_test, pred, average='macro'))
 st.text('Model Report :\n'+classification_report(y_test,pred,target_names=['positif','netral','negatif']))
 #except:
    #print("error")
