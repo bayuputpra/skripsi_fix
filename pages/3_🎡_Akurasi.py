@@ -26,17 +26,17 @@ def analyze(score):
 
 df['score_sentiment'] = df['sentimen'].apply(analyze)
 
-X=df['text_clear']
+X=df['text']
 y=df['score_sentiment']
 
 bow_transformer=CountVectorizer()
-X=bow_transformer.fit_transform(df['text_clear'])
+X=bow_transformer.fit_transform(df['text'])
 
 #TFID Transform
 tf_transform=TfidfTransformer(use_idf=False).fit(X)
 X=tf_transform.transform(X)
 
-X_train, X_test, y_train,y_test = train_test_split(X,y, test_size=0.1)
+X_train, X_test, y_train,y_test = train_test_split(X,y, test_size=0.2)
 
 #model
 model = MultinomialNB()
