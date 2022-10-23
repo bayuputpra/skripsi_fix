@@ -30,26 +30,20 @@ X=df['text']
 y=df['score_sentiment']
 
 bow_transformer=CountVectorizer()
-df['text'].shape
 X=bow_transformer.fit_transform(df['text'])
-
-X.toarray()
-X.shape
-X.nnz
 
 #TFID Transform
 tf_transform=TfidfTransformer(use_idf=False).fit(X)
 X=tf_transform.transform(X)
-X.shape
 
-X_train, X_test, y_train,y_test = train_test_split(X,y, test_size=0.2)
+X_train, X_test, y_train,y_test = train_test_split(X,y, test_size=0.5)
 
 #model
 model = MultinomialNB()
 model.fit(X_train, y_train)
 pred = model.predict(X_test)
 
-st.text('Model Report :\n'+classification_report(y_test,pred,target_names=['positif','netral','negatif'],labels=[0,1,2]))
+st.text('Model Report :\n'+classification_report(y_test,pred))
 #st.write('Data Testing : ',len(test),'%')
 #st.write('Data Training : ',len(train),'%')
 st.write('Accuracy : ',accuracy_score(y_test,pred))
