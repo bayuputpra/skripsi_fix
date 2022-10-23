@@ -2,7 +2,7 @@ import warnings
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer,TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score,classification_report,f1_score,precision_score,recall_score
 import streamlit as st
@@ -26,9 +26,21 @@ def analyze(score):
 
 df['score_sentiment'] = df['sentimen'].apply(analyze)
 
-df['text']=df['text'].apply(lambda x: float(x.split()[0].replace(' ', 'RT')))
-X=np.log(df['text'])
+X=df['text']
 y=df['score_sentiment']
+
+bow_transformer=CountVectorizer()
+df['text'].shape
+X=bow_transformer.fit_transform(df['text'])
+
+X.toarray()
+X.shape
+X.nnz
+
+#TFID Transform
+tf_transform=TfidfTransformer(use_idf=False).fit(X)
+X=tf_transform.transform(X)
+X.shape
 
 X_train, X_test, y_train,y_test = train_test_split(X,y, test_size=0.2)
 
