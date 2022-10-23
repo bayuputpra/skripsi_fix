@@ -36,19 +36,17 @@ X=bow_transformer.fit_transform(df['text'])
 tf_transform=TfidfTransformer(use_idf=False).fit(X)
 X=tf_transform.transform(X)
 
-X_train, X_test, y_train,y_test = train_test_split(X,y, test_size=0.5)
+X_train, X_test, y_train,y_test = train_test_split(X,y, test_size=0.2)
 
 #model
 model = MultinomialNB()
 model.fit(X_train, y_train)
 pred = model.predict(X_test)
 
-st.text('Model Report :\n'+classification_report(y_test,pred))
-#st.write('Data Testing : ',len(test),'%')
-#st.write('Data Training : ',len(train),'%')
 st.write('Accuracy : ',accuracy_score(y_test,pred))
-#st.write('F1 Score : ',f1_score(test.score_sentiment.astype(np.int16), y_pred, average='macro'))
-#st.write('Precision : ',precision_score(test.score_sentiment, y_pred, average='macro'))
-#st.write('Recall : ',recall_score(test.score_sentiment, y_pred, average='macro'))
+st.write('F1 Score : ',f1_score(y_test.astype(np.int16), pred, average='micro'))
+st.write('Precision : ',precision_score(y_test, pred, average='micro'))
+st.write('Recall : ',recall_score(y_test, pred, average='micro'))
+st.text('Model Report :\n'+classification_report(y_test,pred,target_names=['positif','netral','negatif']))
 #except:
    #print("error")
