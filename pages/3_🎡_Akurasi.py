@@ -24,11 +24,11 @@ try:
 
    df['score_sentiment'] = df['sentimen'].apply(analyze)
 
-   X=df['text']
+   X=df['text_clear']
    y=df['score_sentiment']
 
    bow_transformer=CountVectorizer()
-   X=bow_transformer.fit_transform(df['text'])
+   X=bow_transformer.fit_transform(df['text_clear'])
 
    #TFID Transform
    tf_transform=TfidfTransformer(use_idf=False).fit(X)
