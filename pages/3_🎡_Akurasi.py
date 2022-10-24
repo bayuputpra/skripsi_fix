@@ -11,7 +11,7 @@ st.title("Perhitungan Akurasi")
 
 try:
    file_csv=st.file_uploader("Unggah File CSV")
-   df = pd.read_csv(file_csv)
+   df = pd.read_csv(file_csv,sep = ';')
    st.write(df.iloc[:,1:-1])
 
    def analyze(score):
