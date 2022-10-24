@@ -12,7 +12,7 @@ st.title("Perhitungan Akurasi")
 try:
    file_csv=st.file_uploader("Unggah File CSV")
    df = pd.read_csv(file_csv)
-   st.write(df.iloc[:,1,-1])
+   st.write(df.iloc[:,1:-1])
 
    def analyze(score):
       if score == "positif" :
