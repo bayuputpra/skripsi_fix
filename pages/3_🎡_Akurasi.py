@@ -9,10 +9,10 @@ import streamlit as st
 st.sidebar.success("Pilih Halaman Diatas")
 st.title("Perhitungan Akurasi")
 
-file_csv=st.file_uploader("Unggah File CSV")
-df = pd.read_csv(file_csv)
 try:
-   st.write(df.iloc[:,1:-1])
+   file_csv=st.file_uploader("Unggah File CSV")
+   df = pd.read_csv(file_csv)
+   st.write(df.loc[:,["tgl","user","text","text_clear","polarity_score","sentimen"]])
 
    def analyze(score):
       if score == "positif" :
