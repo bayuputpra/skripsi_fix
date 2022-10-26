@@ -1,41 +1,36 @@
-import tweepy
-import re
+from googleapiclient.discovery import build
 import pandas as pd
+import re
+import string
+from nltk.tokenize import word_tokenize
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import streamlit as st
-import nltk
-nltk.download('punkt')
-from nltk.tokenize import word_tokenize
-import string
 
 st.sidebar.success("Pilih Halaman Diatas")
 
-api_key = "APfBI7D2yFcruynoBr4eYTuk2"
-api_secret_key = "jX35Mj2ADJIS76FXl36fCIjHxvHliimL4fY3z6DKlUZ9Q5FrgC"
-access_token = "3049333950-eGUOgNZ86LPxKvaCp8mKGODfCD2VzpbzdFOjEci"
-access_token_secret = "V6v2pWhhVmpJb3KL3xMKlgA8i3w9toH4cScxOXAf39gR2"
-
-auth = tweepy.OAuthHandler(api_key,api_secret_key)
-auth.set_access_token(access_token,access_token_secret)
-api = tweepy.API(auth)
+api_key = "AIzaSyAdYAdDC85CsvKOhaabOxhiZDKGuDok3vI"
+youtube = build('youtube', 'v3', developerKey=api_key)
 
 def main():
     st.title("Sentimen Analisis Twitter") 
 
     try:
-        searchvalue = st.text_input("Masukan Topik Pembahasan Yang Dicari")
-        searchcount = st.text_input("Masukan Jumlah Baris Yang Dicari")
-        hasilAnalisis = pd.DataFrame(columns=["tgl","user","text"])
-        for tweet in tweepy.Cursor (api.search_tweets, q=searchvalue, count=100, lang='id').items(int(searchcount)):
-            tgl = tweet.created_at
-            user = tweet.user.screen_name
-            text = tweet.text
+        searchVid = st.text_input("Masukan Link Video")
+        searchKom = st.text_input("Masukan Jumlah Komentar Yang Dicari")
+        box = [['Name', 'Comment', 'Time', 'Likes', 'Reply Count']]
+        data = youtube.commentThreads().list(part='snippet', videoId=searchVid, maxResults=searchKom, textFormat="plainText").execute()
+        for i in data["items"]:
+            name = i["snippet"]['topLevelComment']["snippet"]["authorDisplayName"]
+            comment = i["snippet"]['topLevelComment']["snippet"]["textDisplay"]
+            published_at = i["snippet"]['topLevelComment']["snippet"]['publishedAt']
+            likes = i["snippet"]['topLevelComment']["snippet"]['likeCount']
+            replies = i["snippet"]['totalReplyCount']
 
-            file=[tgl, user, text]
-            hasilAnalisis.loc[len(hasilAnalisis)]=file
+            box.append([name, comment, published_at, likes, replies])
 
-        hasilAnalisis.drop_duplicates(subset="text",keep="first",inplace=True)
+        df = pd.DataFrame({'Name': [i[0] for i in box], 'Comment': [i[1] for i in box], 'Time': [i[2] for i in box],
+                       'Likes': [i[3] for i in box], 'Reply Count': [i[4] for i in box]})
 
         def preProcess(text):
             #removing number
@@ -51,7 +46,7 @@ def main():
             text=word_tokenize(text)
             return text
 
-        hasilAnalisis['text_clear']=hasilAnalisis['text'].apply(preProcess)
+        df['text_clear']=df['Comment'].apply(preProcess)
 
         positive=dict()
         import csv
@@ -86,32 +81,32 @@ def main():
                 polarity = "negatif"
             return score,polarity
         
-        results=hasilAnalisis['text_clear'].apply(sentiment_analysis_indonesia)
+        results=df['text_clear'].apply(sentiment_analysis_indonesia)
         results=list(zip(*results))
-        hasilAnalisis['polarity_score']=results[0]
-        hasilAnalisis['sentimen']=results[1]
+        df['polarity_score']=results[0]
+        df['sentimen']=results[1]
 
         st.text("Dataset")
-        hasilAnalisis.reset_index()
-        st.write(hasilAnalisis)
-        st.download_button(label="Download CSV", data=hasilAnalisis.to_csv(),mime="text/csv",file_name="data_tw.csv")
+        df.reset_index()
+        st.write(df)
+        st.download_button(label="Download CSV", data=df.to_csv(),mime="text/csv",file_name="data_tw.csv")
 
-        tweet_positif = hasilAnalisis[hasilAnalisis["sentimen"]=="positif"]
-        tweet_netral = hasilAnalisis[hasilAnalisis["sentimen"]=="netral"]
-        tweet_negatif = hasilAnalisis[hasilAnalisis["sentimen"]=="negatif"]
+        tweet_positif = df[df["sentimen"]=="positif"]
+        tweet_netral = df[df["sentimen"]=="netral"]
+        tweet_negatif = df[df["sentimen"]=="negatif"]
 
         st.text("Hasil Sentimen")
         jmlA=len(tweet_positif)
         jmlB=len(tweet_netral)
         jmlC=len(tweet_negatif)
-        persenA="{}%".format(100*len(tweet_positif)/len(hasilAnalisis))
-        persenB="{}%".format(100*len(tweet_netral)/len(hasilAnalisis))
-        persenC="{}%".format(100*len(tweet_negatif)/len(hasilAnalisis))
+        persenA="{}%".format(100*len(tweet_positif)/len(df))
+        persenB="{}%".format(100*len(tweet_netral)/len(df))
+        persenC="{}%".format(100*len(tweet_negatif)/len(df))
         df=pd.DataFrame({'sentimen':["positif","netral","negatif"],'jumlah':[jmlA,jmlB,jmlC],'persen':[persenA,persenB,persenC]})
         df
 
         st.text("Pie Chart")
-        sentiment_counts = hasilAnalisis.groupby(["sentimen"]).size()
+        sentiment_counts = df.groupby(["sentimen"]).size()
         fig,ax=plt.subplots()
         sentiment_counts.plot.pie(autopct='%1.1f%%', startangle=270, fontsize=12, label="")
         plt.figure(figsize=(6,6), dpi=100)
@@ -120,7 +115,7 @@ def main():
 
         st.text("WordCloud")
         def PlotWordcloud():
-            wordcloud = WordCloud(max_words=50, background_color="white", width=2500, height=2000).generate(str(hasilAnalisis["text"]))
+            wordcloud = WordCloud(max_words=50, background_color="white", width=2500, height=2000).generate(str(df["Comment"]))
             plt.imshow(wordcloud)
             plt.axis("off")
             plt.show()
