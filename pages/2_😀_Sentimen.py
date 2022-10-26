@@ -31,7 +31,7 @@ for i in data["items"]:
 
     box.append([name, comment, published_at, likes, replies])
 
-df = pd.DataFrame({'Name': [i[0] for i in box], 'Comment': [i[1] for i in box], 'Time': [i[2] for i in box],
+dataset = pd.DataFrame({'Name': [i[0] for i in box], 'Comment': [i[1] for i in box], 'Time': [i[2] for i in box],
                        'Likes': [i[3] for i in box], 'Reply Count': [i[4] for i in box]})
 
 def preProcess(text):
@@ -48,7 +48,7 @@ def preProcess(text):
     text=word_tokenize(text)
     return text
 
-df['text_clear']=df['Comment'].apply(preProcess)
+dataset['text_clear']=dataset['Comment'].apply(preProcess)
 
 positive=dict()
 import csv
@@ -83,32 +83,32 @@ def sentiment_analysis_indonesia(text):
             polarity = "negatif"
         return score,polarity
         
-results=df['text_clear'].apply(sentiment_analysis_indonesia)
+results=dataset['text_clear'].apply(sentiment_analysis_indonesia)
 results=list(zip(*results))
-df['polarity_score']=results[0]
-df['sentimen']=results[1]
+dataset['polarity_score']=results[0]
+dataset['sentimen']=results[1]
 
 st.text("Dataset")
-df.reset_index()
-st.write(df)
-st.download_button(label="Download CSV", data=df.to_csv(),mime="text/csv",file_name="data_tw.csv")
+dataset.reset_index()
+st.write(dataset)
+st.download_button(label="Download CSV", data=dataset.to_csv(),mime="text/csv",file_name="data_tw.csv")
 
-tweet_positif = df[df["sentimen"]=="positif"]
-tweet_netral = df[df["sentimen"]=="netral"]
-tweet_negatif = df[df["sentimen"]=="negatif"]
+tweet_positif = dataset[dataset["sentimen"]=="positif"]
+tweet_netral = dataset[dataset["sentimen"]=="netral"]
+tweet_negatif = dataset[dataset["sentimen"]=="negatif"]
 
 st.text("Hasil Sentimen")
 jmlA=len(tweet_positif)
 jmlB=len(tweet_netral)
 jmlC=len(tweet_negatif)
-persenA="{}%".format(100*len(tweet_positif)/len(df))
-persenB="{}%".format(100*len(tweet_netral)/len(df))
-persenC="{}%".format(100*len(tweet_negatif)/len(df))
+persenA="{}%".format(100*len(tweet_positif)/len(dataset))
+persenB="{}%".format(100*len(tweet_netral)/len(dataset))
+persenC="{}%".format(100*len(tweet_negatif)/len(dataset))
 df=pd.DataFrame({'sentimen':["positif","netral","negatif"],'jumlah':[jmlA,jmlB,jmlC],'persen':[persenA,persenB,persenC]})
-df
+st.write(df)
 
 st.text("Pie Chart")
-sentiment_counts = df.groupby(["sentimen"]).size()
+sentiment_counts = dataset.groupby(["sentimen"]).size()
 fig,ax=plt.subplots()
 sentiment_counts.plot.pie(autopct='%1.1f%%', startangle=270, fontsize=12, label="")
 plt.figure(figsize=(6,6), dpi=100)
@@ -116,13 +116,13 @@ ax.axis('equal')
 st.pyplot(fig)
 
 st.text("WordCloud")
-def PlotWordcloud(df):
-    wordcloud = WordCloud(max_words=50, background_color="white", width=2500, height=2000).generate(df['Comment'])
+def PlotWordcloud():
+    wordcloud = WordCloud(max_words=50, background_color="white", width=2500, height=2000).generate(str(dataset['Comment']))
     plt.imshow(wordcloud)
     plt.axis("off")
     plt.show()
     st.set_option('deprecation.showPyplotGlobalUse', False)
-st.pyplot(PlotWordcloud(df))
+st.pyplot(PlotWordcloud())
     #except:
         #print("error")
 
