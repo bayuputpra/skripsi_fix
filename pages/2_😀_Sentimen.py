@@ -6,8 +6,9 @@ from nltk.tokenize import word_tokenize
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import nltk
-nltk.download('punkt')
+import emoji
 import streamlit as st
+nltk.download('punkt')
 
 st.sidebar.success("Pilih Halaman Diatas")
 
@@ -38,8 +39,9 @@ def preProcess(text):
     #removing number
     text=text.lower()
     text=re.sub(r"\d+","",text)
-    #remove mention,link,hashtag
+    #remove mention,link,hashtag,emoji
     text=" ".join(re.sub("([@#][A-Za-z0-9]+)|(\w+:\/\/\S+)"," ",text).split())
+    text = emoji.demojize(text)
     #remove punctuation
     text=text.translate(text.maketrans("","",string.punctuation))
     #remove whitespace
@@ -90,7 +92,7 @@ dataset['sentimen']=results[1]
 
 st.text("Dataset")
 dataset.reset_index()
-st.write(dataset)
+st.write(dataset.drop(['Comment'], axis = 1, inplace = True))
 st.download_button(label="Download CSV", data=dataset.to_csv(),mime="text/csv",file_name="data_tw.csv")
 
 tweet_positif = dataset[dataset["sentimen"]=="positif"]
