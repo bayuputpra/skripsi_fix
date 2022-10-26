@@ -117,7 +117,7 @@ st.pyplot(fig)
 
 st.text("WordCloud")
 def PlotWordcloud():
-    wordcloud = WordCloud(max_words=50, background_color="white", width=2500, height=2000).generate(str(df["Comment"]))
+    wordcloud = WordCloud(max_words=50, background_color="white", width=2500, height=2000).generate(str(df['Comment']))
     plt.imshow(wordcloud)
     plt.axis("off")
     plt.show()
