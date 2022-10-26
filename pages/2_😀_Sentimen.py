@@ -5,6 +5,8 @@ import string
 from nltk.tokenize import word_tokenize
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
+import nltk
+nltk.download()
 import streamlit as st
 
 st.sidebar.success("Pilih Halaman Diatas")
