@@ -7,3 +7,4 @@ numpy>=1.23.2
 sklearn>=0.0
 nltk>=3.4.5
 google-api-python-client>=2.65.0
+emoji>=2.0.0
