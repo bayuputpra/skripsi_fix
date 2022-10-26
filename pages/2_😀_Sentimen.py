@@ -116,13 +116,13 @@ ax.axis('equal')
 st.pyplot(fig)
 
 st.text("WordCloud")
-def PlotWordcloud():
+def PlotWordcloud(df):
     wordcloud = WordCloud(max_words=50, background_color="white", width=2500, height=2000).generate(df['Comment'])
     plt.imshow(wordcloud)
     plt.axis("off")
     plt.show()
     st.set_option('deprecation.showPyplotGlobalUse', False)
-st.pyplot(PlotWordcloud())
+st.pyplot(PlotWordcloud(df))
     #except:
         #print("error")
 
