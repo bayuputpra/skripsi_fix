@@ -22,7 +22,7 @@ youtube = build('youtube', 'v3', developerKey=api_key)
 searchVid = st.text_input("Masukan Link Video")
 searchKom = st.text_input("Masukan Jumlah Komentar Yang Dicari")
 box = [['Name', 'Comment', 'Time', 'Likes', 'Reply Count']]
-data = youtube.commentThreads(int(searchKom)).list(part='snippet', videoId=searchVid, maxResults=1000, textFormat="plainText").execute()
+data = youtube.commentThreads().list(part='snippet', videoId=searchVid, maxResults=int(searchKom), textFormat="plainText").execute()
 for i in data["items"]:
     name = i["snippet"]['topLevelComment']["snippet"]["authorDisplayName"]
     comment = i["snippet"]['topLevelComment']["snippet"]["textDisplay"]
@@ -31,6 +31,17 @@ for i in data["items"]:
     replies = i["snippet"]['totalReplyCount']
 
     box.append([name, comment, published_at, likes, replies])
+
+while ("nextPageToken" in data):
+    data = youtube.commentThreads().list(part='snippet', videoId=searchVid, pageToken=data["nextPageToken"],maxResults=int(searchKom), textFormat="plainText").execute()
+    for i in data["items"]:
+        name = i["snippet"]['topLevelComment']["snippet"]["authorDisplayName"]
+        comment = i["snippet"]['topLevelComment']["snippet"]["textDisplay"]
+        published_at = i["snippet"]['topLevelComment']["snippet"]['publishedAt']
+        likes = i["snippet"]['topLevelComment']["snippet"]['likeCount']
+        replies = i["snippet"]['totalReplyCount']
+
+        box.append([name, comment, published_at, likes, replies])
 
 dataset = pd.DataFrame({'Name': [i[0] for i in box], 'Comment': [i[1] for i in box], 'Time': [i[2] for i in box],
                        'Likes': [i[3] for i in box], 'Reply Count': [i[4] for i in box]})
