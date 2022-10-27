@@ -10,6 +10,6 @@ if __name__=='__main__':
 
 try:
     searchVid = st.text_input("Masukan Link Video")
-    st.video(searchVid, format="video/mp4", start_time=0)
+    st.video("https://youtu.be/"+searchVid, format="video/mp4", start_time=0)
 except:
     print("error")
