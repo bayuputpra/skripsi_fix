@@ -21,9 +21,6 @@ youtube = build('youtube', 'v3', developerKey=api_key)
     #try:
 searchVid = st.text_input("Masukan Link Video")
 searchKom = st.text_input("Masukan Jumlah Komentar Yang Dicari")
-if st.button("Cek Video"):
-    st.video("https://www.youtube.com/watch?v="+searchVid, format="video/mp4", start_time=0)
-
 box = [['Name', 'Comment', 'Time', 'Likes', 'Reply Count']]
 data = youtube.commentThreads().list(part='snippet', videoId=searchVid, maxResults=int(searchKom), textFormat="plainText").execute()
 for i in data["items"]:
@@ -95,7 +92,6 @@ dataset['sentimen']=results[1]
 
 st.text("Dataset")
 dataset.reset_index()
-dataset.drop(['Comment'], axis = 1, inplace = True)
 st.write(dataset)
 st.download_button(label="Download CSV", data=dataset.to_csv(),mime="text/csv",file_name="data_yt.csv")
 
@@ -133,4 +129,4 @@ st.pyplot(PlotWordcloud())
         #print("error")
 
 #if __name__=='__main__':
-        #main()
+    #main()
