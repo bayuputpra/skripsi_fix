@@ -92,7 +92,7 @@ dataset['sentimen']=results[1]
 
 st.text("Dataset")
 dataset.reset_index()
-st.write(dataset)
+st.write(dataset.drop(index=0, axis=1, inplace=False))
 st.download_button(label="Download CSV", data=dataset.to_csv(),mime="text/csv",file_name="data_yt.csv")
 
 tweet_positif = dataset[dataset["sentimen"]=="positif"]

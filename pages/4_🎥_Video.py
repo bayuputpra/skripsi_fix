@@ -10,7 +10,7 @@ if __name__=='__main__':
 
 try:
     searchVid = st.text_input("Masukan Link Video")
-    if searchVid != "null":
-        st.video("https://www.youtube.com/watch?v="+searchVid, format="video/mp4", start_time=0)
+    video="https://www.youtube.com/watch?v="+searchVid
+    st.video(video, format="video/mp4", start_time=0)
 except:
     print("error")
