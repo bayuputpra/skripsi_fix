@@ -7,7 +7,6 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import nltk
 import emoji
-import tweepy
 import streamlit as st
 nltk.download('punkt')
 
@@ -23,8 +22,8 @@ youtube = build('youtube', 'v3', developerKey=api_key)
 searchVid = st.text_input("Masukan Link Video")
 searchKom = st.text_input("Masukan Jumlah Komentar Yang Dicari")
 box = [['Name', 'Comment', 'Time', 'Likes', 'Reply Count']]
-data = youtube.commentThreads().list(part='snippet', videoId=searchVid, maxResults=100, textFormat="plainText").execute()
-for i in tweepy.Cursor(data["items"]).items(int(searchKom)):
+data = youtube.commentThreads().list(part='snippet', videoId=searchVid, maxResults=1000, textFormat="plainText").execute(int(searchKom))
+for i in data["items"]:
     name = i["snippet"]['topLevelComment']["snippet"]["authorDisplayName"]
     comment = i["snippet"]['topLevelComment']["snippet"]["textDisplay"]
     published_at = i["snippet"]['topLevelComment']["snippet"]['publishedAt']
