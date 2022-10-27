@@ -21,6 +21,9 @@ youtube = build('youtube', 'v3', developerKey=api_key)
     #try:
 searchVid = st.text_input("Masukan Link Video")
 searchKom = st.text_input("Masukan Jumlah Komentar Yang Dicari")
+if st.button("Cek Video"):
+    st.video("https://www.youtube.com/watch?v="+searchVid, format="video/mp4", start_time=0)
+
 box = [['Name', 'Comment', 'Time', 'Likes', 'Reply Count']]
 data = youtube.commentThreads().list(part='snippet', videoId=searchVid, maxResults=int(searchKom), textFormat="plainText").execute()
 for i in data["items"]:
