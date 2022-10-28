@@ -19,7 +19,7 @@ def main():
     st.title("Sentimen Analisis Youtube") 
 
     try:
-        add_selectbox = st.selectbox("Pilih Menu",("Pilih salah satu","Cari Dataset", "Hitung Dataset"))
+        add_selectbox = st.selectbox("Pilih Menu",("pilih salah satu","Cari Dataset", "Hitung Dataset"))
         if add_selectbox=="Cari Dataset":
             searchVid = st.text_input("Masukan Link Video")
             box = [['Name', 'Comment', 'Time', 'Likes', 'Reply Count']]
@@ -131,7 +131,7 @@ def main():
 
             st.text("WordCloud")
             def PlotWordcloud():
-                wordcloud = WordCloud(max_words=50, background_color="white", width=2500, height=2000).generate(str(dataset['Comment']))
+                wordcloud = WordCloud(max_words=100, background_color="white", width=2500, height=2000).generate(str(dataset['Comment']))
                 plt.imshow(wordcloud)
                 plt.axis("off")
                 plt.show()
@@ -140,9 +140,8 @@ def main():
 
         elif add_selectbox=="Hitung Dataset":
             file_csv=st.file_uploader("Unggah File CSV")
-            dataset = pd.read_csv(file_csv,delimiter=',')
+            dataset = pd.read_csv(file_csv)
             st.text("Dataset")
-            dataset.reset_index()
             st.write(dataset.iloc[:,1:-1].drop(index=0, axis=1, inplace=False))
 
             tweet_positif = dataset[dataset["sentimen"]=="positif"]
@@ -169,7 +168,7 @@ def main():
 
             st.text("WordCloud")
             def PlotWordcloud():
-                wordcloud = WordCloud(max_words=50, background_color="white", width=2500, height=2000).generate(str(dataset['Comment']))
+                wordcloud = WordCloud(max_words=100, background_color="white", width=2500, height=2000).generate(str(dataset['Comment']))
                 plt.imshow(wordcloud)
                 plt.axis("off")
                 plt.show()

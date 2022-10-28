@@ -11,9 +11,8 @@ st.title("Perhitungan Akurasi")
 
 try:
    file_csv=st.file_uploader("Unggah File CSV")
-   df = pd.read_csv(file_csv,delimiter=',')
+   df = pd.read_csv(file_csv)
    st.text("Dataset")
-   df.reset_index()
    st.write(df.iloc[:,1:-1].drop(index=0, axis=1, inplace=False))
 
    def analyze(score):
