@@ -142,7 +142,6 @@ def main():
             file_csv=st.file_uploader("Unggah File CSV")
             dataset = pd.read_csv(file_csv)
             st.text("Dataset")
-            dataset=dataset.iloc[:,1:-1]
             dataset=dataset.drop(index=0, axis=0, inplace=False)
             st.write(dataset)
 
