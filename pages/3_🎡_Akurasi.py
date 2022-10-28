@@ -13,7 +13,7 @@ try:
    file_csv=st.file_uploader("Unggah File CSV")
    df = pd.read_csv(file_csv)
    st.text("Dataset")
-   df=df.drop(index=0, axis=1, inplace=False)
+   df=df.drop(index=0, axis=0, inplace=False)
    df=df.iloc[:,1:-1]
    st.write(df)
 
