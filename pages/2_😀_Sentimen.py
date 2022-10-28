@@ -20,9 +20,8 @@ youtube = build('youtube', 'v3', developerKey=api_key)
 
     #try:
 searchVid = st.text_input("Masukan Link Video")
-searchKom = st.text_input("Masukan Jumlah Komentar Yang Dicari")
 box = [['Name', 'Comment', 'Time', 'Likes', 'Reply Count']]
-data = youtube.commentThreads().list(part='snippet', videoId=searchVid, maxResults=searchKom, textFormat="plainText").execute()
+data = youtube.commentThreads().list(part='snippet', videoId=searchVid, maxResults='100', textFormat="plainText").execute()
 for i in data["items"]:
     name = i["snippet"]['topLevelComment']["snippet"]["authorDisplayName"]
     comment = i["snippet"]['topLevelComment']["snippet"]["textDisplay"]
@@ -33,7 +32,7 @@ for i in data["items"]:
     box.append([name, comment, published_at, likes, replies])
 
 while ("nextPageToken" in data):
-    data = youtube.commentThreads().list(part='snippet', pageToken=data["nextPageToken"], textFormat="plainText").execute()
+    data = youtube.commentThreads().list(part='snippet', videoId=searchVid, pageToken=data["nextPageToken"], maxResults='100', textFormat="plainText").execute()
     for i in data["items"]:
         name = i["snippet"]['topLevelComment']["snippet"]["authorDisplayName"]
         comment = i["snippet"]['topLevelComment']["snippet"]["textDisplay"]
