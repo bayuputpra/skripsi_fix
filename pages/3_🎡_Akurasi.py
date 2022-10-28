@@ -13,8 +13,8 @@ try:
    file_csv=st.file_uploader("Unggah File CSV")
    df = pd.read_csv(file_csv)
    st.text("Dataset")
-   df=df.loc['Name', 'Comment', 'Time', 'Likes', 'Reply Count','text_clear','polarity_score','sentimen']
-   st.write(df.drop(index=0, axis=1, inplace=False))
+   df=df.drop(index=0, axis=1, inplace=False)
+   st.write(df.loc['Name', 'Comment', 'Time', 'Likes', 'Reply Count','text_clear','polarity_score','sentimen'])
 
    def analyze(score):
       if score == "positif" :
