@@ -14,8 +14,7 @@ try:
    df = pd.read_csv(file_csv,delimiter=',')
    st.text("Dataset")
    df.reset_index()
-   df.drop(index=0, axis=1, inplace=False)
-   st.write(df.iloc[:,1:-1])
+   st.write(df.iloc[:,1:-1].drop(index=0, axis=1, inplace=False))
 
    def analyze(score):
       if score == "positif" :
