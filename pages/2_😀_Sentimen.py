@@ -142,7 +142,8 @@ def main():
             file_csv=st.file_uploader("Unggah File CSV")
             dataset = pd.read_csv(file_csv)
             st.text("Dataset")
-            st.write(dataset.iloc[:,1:-1].drop(index=0, axis=1, inplace=False))
+            dataset.iloc[:,1:-1].drop(index=0, axis=1, inplace=False)
+            st.write(dataset)
 
             tweet_positif = dataset[dataset["sentimen"]=="positif"]
             tweet_netral = dataset[dataset["sentimen"]=="netral"]
