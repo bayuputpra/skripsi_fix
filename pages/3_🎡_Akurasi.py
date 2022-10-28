@@ -14,6 +14,7 @@ try:
    df = pd.read_csv(file_csv)
    st.text("Dataset")
    df=df.drop(index=0, axis=0, inplace=False)
+   df=df.drop(index=1,axis=1, inplace=False)
    st.write(df)
 
    def analyze(score):
