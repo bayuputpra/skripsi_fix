@@ -131,7 +131,7 @@ def main():
 
             st.text("WordCloud")
             def PlotWordcloud():
-                wordcloud = WordCloud(max_words=100, background_color="white", width=2500, height=2000).generate(str(dataset['Comment']))
+                wordcloud = WordCloud(max_words=1000, background_color="white", width=2500, height=2000).generate(str(dataset['Comment']))
                 plt.imshow(wordcloud)
                 plt.axis("off")
                 plt.show()
@@ -142,7 +142,7 @@ def main():
             file_csv=st.file_uploader("Unggah File CSV")
             dataset = pd.read_csv(file_csv)
             st.text("Dataset")
-            dataset.iloc[:,1:-1].drop(index=0, axis=1, inplace=False)
+            dataset=dataset.iloc[:,1:-1].drop(index=0, axis=1, inplace=False)
             st.write(dataset)
 
             tweet_positif = dataset[dataset["sentimen"]=="positif"]
@@ -169,7 +169,7 @@ def main():
 
             st.text("WordCloud")
             def PlotWordcloud():
-                wordcloud = WordCloud(max_words=100, background_color="white", width=2500, height=2000).generate(str(dataset['Comment']))
+                wordcloud = WordCloud(max_words=1000, background_color="white", width=2500, height=2000).generate(str(dataset['Comment']))
                 plt.imshow(wordcloud)
                 plt.axis("off")
                 plt.show()
