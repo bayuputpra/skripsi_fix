@@ -19,7 +19,7 @@ youtube = build('youtube', 'v3', developerKey=api_key)
     #st.title("Sentimen Analisis Youtube") 
 
     #try:
-add_selectbox = st.selectbox("Pilih Menu",("Cari Dataset", "Hitung Dataset"))
+add_selectbox = st.selectbox("Pilih Menu",("Pilih salah satu","Cari Dataset", "Hitung Dataset"))
 if add_selectbox=="Cari Dataset":
     searchVid = st.text_input("Masukan Link Video")
     box = [['Name', 'Comment', 'Time', 'Likes', 'Reply Count']]
