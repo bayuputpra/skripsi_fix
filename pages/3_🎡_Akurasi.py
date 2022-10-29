@@ -7,6 +7,7 @@ from sklearn.metrics import accuracy_score,classification_report,f1_score,precis
 import streamlit as st
 
 st.sidebar.success("Pilih Halaman Diatas")
+st.markdown("<stylke>#MainMenu {visibility:hidden;}</style>",unsafe_allow_html=True)
 st.title("Perhitungan Akurasi")
 
 try:

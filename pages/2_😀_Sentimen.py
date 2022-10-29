@@ -11,19 +11,17 @@ import streamlit as st
 nltk.download('punkt')
 
 st.sidebar.success("Pilih Halaman Diatas")
+st.markdown("<stylke>#MainMenu {visibility:hidden;}</style>",unsafe_allow_html=True)
 
 api_key = "AIzaSyAdYAdDC85CsvKOhaabOxhiZDKGuDok3vI"
 youtube = build('youtube', 'v3', developerKey=api_key)
 
 st.title("Sentimen Analisis Youtube")
-class Format:
-    end = '\033[0m'
-    underline = '\033[4m'
 
 try:
     add_selectbox = st.selectbox("Pilih Menu",("pilih salah satu","Cari Dataset", "Hitung Dataset"))
     if add_selectbox=="Cari Dataset":
-        searchVid = st.text_input(("Masukan Link Video (https://www.youtube.com/watch?v=")+Format.underline+"C7Ly_HN-OCQ)"+Format.end)
+        searchVid = st.text_input("Masukan Link Video")
         box = [['Name', 'Comment', 'Time', 'Likes', 'Reply Count']]
         data = youtube.commentThreads().list(part='snippet', videoId=searchVid, maxResults='100', textFormat="plainText").execute()
         for i in data["items"]:
