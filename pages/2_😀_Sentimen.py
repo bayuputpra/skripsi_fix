@@ -23,7 +23,7 @@ class Format:
 try:
     add_selectbox = st.selectbox("Pilih Menu",("pilih salah satu","Cari Dataset", "Hitung Dataset"))
     if add_selectbox=="Cari Dataset":
-        searchVid = st.text_input("Masukan Link Video (https://www.youtube.com/watch?v="+Format.underline+"C7Ly_HN-OCQ)"+Format.end)
+        searchVid = st.text_input(("Masukan Link Video (https://www.youtube.com/watch?v=")+Format.underline+"C7Ly_HN-OCQ)"+Format.end)
         box = [['Name', 'Comment', 'Time', 'Likes', 'Reply Count']]
         data = youtube.commentThreads().list(part='snippet', videoId=searchVid, maxResults='100', textFormat="plainText").execute()
         for i in data["items"]:
