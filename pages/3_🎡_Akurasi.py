@@ -31,7 +31,7 @@ X=df['Comment']
 y=df['score_sentiment']
 
 bow_transformer=CountVectorizer()
-X=bow_transformer.fit_transform(df['Comment'])
+X=bow_transformer.fit_transform(df['Comment'].values.astype('U'))
 
 #TFID Transform
 tf_transform=TfidfTransformer(use_idf=False).fit(X)
