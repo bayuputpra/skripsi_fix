@@ -20,7 +20,7 @@ st.title("Sentimen Analisis Youtube")
 try:
     add_selectbox = st.selectbox("Pilih Menu",("pilih salah satu","Cari Dataset", "Hitung Dataset"))
     if add_selectbox=="Cari Dataset":
-        searchVid = st.text_input("Masukan Link Video")
+        searchVid = st.text_input("Masukan Link Video (https://www.youtube.com/watch?v="+"\u0332".join("C7Ly_HN-OCQ)"))
         box = [['Name', 'Comment', 'Time', 'Likes', 'Reply Count']]
         data = youtube.commentThreads().list(part='snippet', videoId=searchVid, maxResults='100', textFormat="plainText").execute()
         for i in data["items"]:
