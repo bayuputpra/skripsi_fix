@@ -15,12 +15,15 @@ st.sidebar.success("Pilih Halaman Diatas")
 api_key = "AIzaSyAdYAdDC85CsvKOhaabOxhiZDKGuDok3vI"
 youtube = build('youtube', 'v3', developerKey=api_key)
 
-st.title("Sentimen Analisis Youtube") 
+st.title("Sentimen Analisis Youtube")
+class Format:
+    end = '\033[0m'
+    underline = '\033[4m'
 
 try:
     add_selectbox = st.selectbox("Pilih Menu",("pilih salah satu","Cari Dataset", "Hitung Dataset"))
     if add_selectbox=="Cari Dataset":
-        searchVid = st.text_input("Masukan Link Video (https://www.youtube.com/watch?v="+"\033[4m"+"C7Ly_HN-OCQ)"+"\033[0m")
+        searchVid = st.text_input("Masukan Link Video (https://www.youtube.com/watch?v="+Format.underline+"C7Ly_HN-OCQ)"+Format.end)
         box = [['Name', 'Comment', 'Time', 'Likes', 'Reply Count']]
         data = youtube.commentThreads().list(part='snippet', videoId=searchVid, maxResults='100', textFormat="plainText").execute()
         for i in data["items"]:
