@@ -130,7 +130,7 @@ try:
 
         st.text("WordCloud")
         def PlotWordcloud():
-            wordcloud = WordCloud(max_words=1000, background_color="white", width=2500, height=2000).generate(str(dataset['Comment']))
+            wordcloud = WordCloud(background_color="white", width=2500, height=2000).generate(str(dataset['Comment']))
             plt.imshow(wordcloud)
             plt.axis("off")
             plt.show()
@@ -169,7 +169,7 @@ try:
 
         st.text("WordCloud")
         def PlotWordcloud():
-            wordcloud = WordCloud(max_words=1000, background_color="white", width=2500, height=2000).generate(str(dataset['Comment']))
+            wordcloud = WordCloud(background_color="white", width=2500, height=2000).generate(str(dataset['Comment']))
             plt.imshow(wordcloud)
             plt.axis("off")
             plt.show()
