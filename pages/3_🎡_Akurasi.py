@@ -14,7 +14,8 @@ file_csv=st.file_uploader("Unggah File CSV")
 df = pd.read_csv(file_csv)
 st.text("Dataset")
 df=df.drop(index=0, axis=0, inplace=False)
-st.write(df.loc(axis=0)[:,'Name', 'Comment', 'Time', 'Likes', 'Reply Count','text_clear','polarity_score','sentimen'])
+tabel=['Name', 'Comment', 'Time', 'Likes', 'Reply Count','text_clear','polarity_score','sentimen']
+st.write(df.loc(axis=0)[:,tabel])
 
 def analyze(score):
    if score == "positif" :
