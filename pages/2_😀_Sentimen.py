@@ -11,7 +11,12 @@ import streamlit as st
 nltk.download('punkt')
 
 st.sidebar.success("Pilih Halaman Diatas")
-st.markdown("<stylke>#MainMenu {visibility:hidden;}</style>",unsafe_allow_html=True)
+hide_st_style="""
+        <style>
+        #MainMenu {visibility:hidden;}
+        </style>
+        """
+st.markdown(hide_st_style,unsafe_allow_html=True)
 
 api_key = "AIzaSyAdYAdDC85CsvKOhaabOxhiZDKGuDok3vI"
 youtube = build('youtube', 'v3', developerKey=api_key)
