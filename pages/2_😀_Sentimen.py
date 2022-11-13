@@ -6,9 +6,11 @@ from nltk.tokenize import word_tokenize
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+from nltk.corpus import stopwords
 import emoji
 import streamlit as st
-nltk.download('punkt')
 
 st.sidebar.success("Pilih Halaman Diatas")
 hide_st_style="""
@@ -65,6 +67,8 @@ try:
             text=text.strip()
             space=text.split()
             text=word_tokenize(text)
+            stop_words = set(stopwords.words('indonesian'))
+            text = [word for word in text if not word in stop_words]
             return text
 
         dataset['text_clear']=dataset['Comment'].apply(preProcess)
