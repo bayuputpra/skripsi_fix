@@ -4,7 +4,7 @@ matplotlib>=3.5.3
 regex>=2022.8.17
 wordcloud>=1.8.2.2
 numpy>=1.23.2
-sklearn>=0.0
+scikit-learn
 nltk>=3.4.5
 google-api-python-client>=2.65.0
 emoji>=2.0.0
