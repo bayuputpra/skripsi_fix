@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer,TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import accuracy_score,classification_report,f1_score,precision_score,recall_score
+from sklearn.metrics import confusion_matrix,classification_report
 import streamlit as st
 
 st.sidebar.success("Pilih Halaman Diatas")
@@ -50,10 +50,7 @@ try:
    model.fit(X_train, y_train)
    pred = model.predict(X_test)
 
-   st.write('Accuracy : ',accuracy_score(y_test,pred))
-   st.write('F1 Score : ',f1_score(y_test.astype(np.int16), pred, average='macro'))
-   st.write('Precision : ',precision_score(y_test, pred, average='macro'))
-   st.write('Recall : ',recall_score(y_test, pred, average='macro'))
+   st.write('Confusion Matrix : ',confusion_matrix(y_test,pred))
    st.text('Model Report :\n'+classification_report(y_test,pred))
 except:
    print("error")
