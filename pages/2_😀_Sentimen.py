@@ -141,7 +141,7 @@ try:
         st.text("WordCloud")
         def PlotWordcloud():
             stop_words = set(stopwords.words('indonesian'))
-            wordcloud = WordCloud(stopwords = stop_words,background_color="white", width=2500, height=2000).generate(str(dataset['Comment']))
+            wordcloud = WordCloud(stopwords = stop_words,background_color="black", width=2500, height=2000).generate(str(dataset['Comment']))
             plt.imshow(wordcloud)
             plt.axis("off")
             plt.show()
@@ -181,7 +181,7 @@ try:
         st.text("WordCloud")
         def PlotWordcloud():
             stop_words = set(stopwords.words('indonesian'))
-            wordcloud = WordCloud(stopwords = stop_words,background_color="white", width=2500, height=2000).generate(str(dataset['Comment']))
+            wordcloud = WordCloud(stopwords = stop_words,background_color="black", width=2500, height=2000).generate(str(dataset['Comment']))
             plt.imshow(wordcloud)
             plt.axis("off")
             plt.show()
