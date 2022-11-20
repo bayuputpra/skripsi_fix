@@ -13,12 +13,6 @@ import emoji
 import streamlit as st
 
 st.sidebar.success("Pilih Halaman Diatas")
-hide_st_style="""
-        <style>
-        #MainMenu {visibility:hidden;}
-        </style>
-        """
-st.markdown(hide_st_style,unsafe_allow_html=True)
 
 api_key = "AIzaSyAdYAdDC85CsvKOhaabOxhiZDKGuDok3vI"
 youtube = build('youtube', 'v3', developerKey=api_key)

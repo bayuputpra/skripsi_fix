@@ -7,12 +7,6 @@ from sklearn.metrics import confusion_matrix,classification_report
 import streamlit as st
 
 st.sidebar.success("Pilih Halaman Diatas")
-hide_st_style="""
-        <style>
-        #MainMenu {visibility:hidden;}
-        </style>
-        """
-st.markdown(hide_st_style,unsafe_allow_html=True)
 st.title("Perhitungan Akurasi")
 
 try:
