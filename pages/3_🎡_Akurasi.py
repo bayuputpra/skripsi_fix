@@ -3,8 +3,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer,TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import confusion_matrix
-from sklearn import metrics
+from sklearn.metrics import confusion_matrix,classification_report
 import seaborn as sns
 import matplotlib.pyplot as plt
 import streamlit as st
@@ -55,6 +54,6 @@ try:
    plt.show()
    st.pyplot(f)
 
-   st.text('Model Report :\n'+metrics.classification_report(y_test,pred))
+   st.text('Model Report :\n'+classification_report(y_test,pred))
 except:
    print("error")
