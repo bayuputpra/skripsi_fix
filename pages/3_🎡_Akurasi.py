@@ -52,6 +52,7 @@ try:
    plt.xlabel("y_head")
    plt.ylabel("y_true")
    plt.show()
+   st.pyplot(f)
 
    st.text('Model Report :\n'+classification_report(y_test,pred))
 except:
