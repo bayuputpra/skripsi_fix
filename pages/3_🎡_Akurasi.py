@@ -4,6 +4,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer,TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import confusion_matrix,classification_report
+import seaborn as sns
+import matplotlib.pyplot as plt
 import streamlit as st
 
 st.sidebar.success("Pilih Halaman Diatas")
@@ -46,5 +48,9 @@ try:
 
    st.write('Confusion Matrix : ',confusion_matrix(y_test,pred))
    st.text('Model Report :\n'+classification_report(y_test,pred))
+
+   plt.figure(figsize=(10,8))
+   sns.heatmap(confusion_matrix(y_test,pred),annot=True,fmt='.3g',xticklabels="y_head",yticklabels="y_true",cmap='viridis')
+   plt.show()
 except:
    print("error")
