@@ -47,8 +47,10 @@ try:
    pred = model.predict(X_test)
 
    st.write('Confusion Matrix : ',confusion_matrix(y_test,pred))
-   plt.figure(figsize=(10,8))
-   sns.heatmap(confusion_matrix(y_test,pred),annot=True,fmt='.3g',xticklabels="y_head",yticklabels="y_true",cmap='viridis')
+   f, ax = plt.subplots(figsize=(8,5))
+   sns.heatmap(confusion_matrix(y_test,pred), annot=True, fmt=".0f", ax=ax)
+   plt.xlabel("y_head")
+   plt.ylabel("y_true")
    plt.show()
 
    st.text('Model Report :\n'+classification_report(y_test,pred))
