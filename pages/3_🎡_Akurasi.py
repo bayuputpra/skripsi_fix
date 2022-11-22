@@ -54,6 +54,6 @@ try:
    plt.show()
    st.pyplot(f)
 
-   st.text('Model Report :\n'+classification_report(y_test,pred))
+   st.text('Model Report :\n'+metrics.classification_report(y_test,pred))
 except:
    print("error")
