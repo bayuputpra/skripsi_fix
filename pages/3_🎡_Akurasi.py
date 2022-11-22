@@ -47,7 +47,7 @@ try:
    pred = model.predict(X_test)
 
    st.write('Confusion Matrix : ',confusion_matrix(y_test,pred))
-   f, ax = plt.subplots(figsize=(10,8))
+   f, ax = plt.subplots(figsize=(8,5))
    sns.heatmap(confusion_matrix(y_test,pred), annot=True, fmt=".0f", ax=ax)
    plt.xlabel("y_head")
    plt.ylabel("y_true")
