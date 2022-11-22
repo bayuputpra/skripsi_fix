@@ -3,7 +3,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer,TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import confusion_matrix,classification_report
+from sklearn.metrics import confusion_matrix
+from sklearn import metrics
 import seaborn as sns
 import matplotlib.pyplot as plt
 import streamlit as st
