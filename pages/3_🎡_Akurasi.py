@@ -39,7 +39,7 @@ try:
    tf_transform=TfidfTransformer(use_idf=False).fit(X)
    X=tf_transform.transform(X)
 
-   X_train, X_test, y_train,y_test = train_test_split(X,y, test_size=0.3,random_state=30)
+   X_train, X_test, y_train,y_test = train_test_split(X,y, test_size=0.4,random_state=30)
 
    #model
    model = MultinomialNB()
